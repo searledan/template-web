@@ -18,12 +18,20 @@
 		"jsx": "react-jsx",
 		"paths": {
 			"@/*": ["./src/*"],
-			"@test-utils": ["./test-utils"]
+			"@components/*": ["./src/components/*"],
+			"@contexts/*": ["./src/contexts/*"],
+			"@hooks/*": ["./src/hooks/*"],
+			"@integrations/*": ["./src/integrations/*"],
+			"@models/*": ["./src/models/*"],
+			"@pages/*": ["./src/pages/*"],
+			"@providers/*": ["./src/providers/*"],
+			"@services/*": ["./src/services/*"],
+			"@utils/*": ["./src/utils/*"]
 		}
 	},
 	"include": [
 		"src",
-		"test-utils",
+		"src/utils/test/test",
 		".storybook/main.ts",
 		".storybook/preview.tsx"
 	]

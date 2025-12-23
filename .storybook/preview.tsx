@@ -1,18 +1,21 @@
-import "@mantine/core/styles.css";
-
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import type { Decorator } from "@storybook/react";
-import { theme } from "../src/theme";
+import { theme } from "../src/utils/theme";
+
+import "@mantine/core/styles.css";
 
 export const parameters = {
 	layout: "fullscreen",
-	options: {
-		showPanel: false,
-		// @ts-expect-error – storybook throws build error for (a: any, b: any)
-		storySort: (a, b) =>
-			a.title.localeCompare(b.title, undefined, { numeric: true }),
+	controls: {
+		matchers: {
+			color: /(background|color)$/i,
+			date: /Date$/i,
+		},
 	},
 	backgrounds: { disable: true },
+	a11y: {
+		test: "todo",
+	},
 };
 
 export const globalTypes = {

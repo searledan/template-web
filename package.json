@@ -12,6 +12,7 @@
 		"lint:fix": "biome check --write",
 		"vitest": "vitest run",
 		"vitest:watch": "vitest",
+		"vitest:storybook": "vitest --project=storybook",
 		"test": "npm run typecheck && npm run lint && npm run vitest && npm run build",
 		"storybook": "storybook dev -p 6006",
 		"storybook:build": "storybook build"
@@ -46,7 +47,14 @@
 		"typescript": "^5.9.3",
 		"vite": "^7.3.0",
 		"vite-tsconfig-paths": "^6.0.3",
-		"vitest": "^4.0.16"
+		"vitest": "^4.0.16",
+		"@storybook/addon-vitest": "^10.1.10",
+		"@storybook/addon-a11y": "^10.1.10",
+		"@storybook/addon-docs": "^10.1.10",
+		"@storybook/addon-onboarding": "^10.1.10",
+		"playwright": "^1.57.0",
+		"@vitest/browser-playwright": "^4.0.16",
+		"@vitest/coverage-v8": "^4.0.16"
 	},
 	"packageManager": "yarn@4.12.0"
 }
