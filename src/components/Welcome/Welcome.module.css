@@ -8,3 +8,7 @@
     font-size: rem(50px);
   }
 }
+
+.anchor {
+  color: light-dark(#1d76db, var(--mantine-color-anchor));
+}

@@ -31,7 +31,7 @@
 	},
 	"include": [
 		"src",
-		"src/utils/test/test",
+		"src/utils/test",
 		".storybook/main.ts",
 		".storybook/preview.tsx"
 	]

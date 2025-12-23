@@ -1,4 +1,5 @@
 import { Anchor, Text, Title } from "@mantine/core";
+
 import classes from "./Welcome.module.css";
 
 export interface WelcomeProps {
@@ -6,27 +7,28 @@ export interface WelcomeProps {
 	titleEnd?: string;
 }
 
-export const Welcome = (props: WelcomeProps) => {
-	const _titleStart = props.titleStart || "Welcome to";
-	const _titleEnd = props.titleEnd || " + Vite!";
-
+export const Welcome = ({
+	titleStart = "Welcome to",
+	titleEnd = " + Vite!",
+}: WelcomeProps) => {
 	return (
 		<>
 			<Title className={classes.title} ta="center" mt={100}>
-				{_titleStart}{" "}
+				{titleStart}{" "}
 				<Text
 					inherit
 					variant="gradient"
 					component="span"
 					gradient={{ from: "pink", to: "yellow" }}
 				>
-					{_titleEnd}
+					{titleEnd}
 				</Text>
 			</Title>
 			<Text ta="center" size="lg" maw={580} mx="auto" mt="xl">
 				This starter Vite project includes a minimal setup, if you want to learn
 				more on Mantine + Vite integration follow{" "}
 				<Anchor
+					className={classes.anchor}
 					href="https://mantine.dev/guides/vite/"
 					size="lg"
 					td="underline"
