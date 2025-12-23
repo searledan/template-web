@@ -7,13 +7,13 @@ export interface WelcomeProps {
 }
 
 export const Welcome = (props: WelcomeProps) => {
-	const _titleStart = props.titleStart || "Welcome to ";
+	const _titleStart = props.titleStart || "Welcome to";
 	const _titleEnd = props.titleEnd || " + Vite!";
 
 	return (
 		<>
 			<Title className={classes.title} ta="center" mt={100}>
-				{_titleStart}
+				{_titleStart}{" "}
 				<Text
 					inherit
 					variant="gradient"
@@ -23,10 +23,14 @@ export const Welcome = (props: WelcomeProps) => {
 					{_titleEnd}
 				</Text>
 			</Title>
-			<Text c="dimmed" ta="center" size="lg" maw={580} mx="auto" mt="xl">
+			<Text ta="center" size="lg" maw={580} mx="auto" mt="xl">
 				This starter Vite project includes a minimal setup, if you want to learn
 				more on Mantine + Vite integration follow{" "}
-				<Anchor href="https://mantine.dev/guides/vite/" size="lg">
+				<Anchor
+					href="https://mantine.dev/guides/vite/"
+					size="lg"
+					td="underline"
+				>
 					this guide
 				</Anchor>
 				. To get started edit pages/Home.page.tsx file.

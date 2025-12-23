@@ -12,6 +12,7 @@ const meta = {
 	argTypes: {
 		color: {
 			control: { type: "color" },
+			defaultValue: "#26890D",
 		},
 		size: {
 			options: ["xs", "sm", "md", "lg", "xl"],
@@ -19,7 +20,7 @@ const meta = {
 			defaultValue: "md",
 		},
 	},
-	args: { onClick: fn() },
+	args: { onClick: fn(), color: "#26890D" },
 	play: async ({ canvas, userEvent }) => {
 		await userEvent.click(canvas.getByText("Button"));
 		await expect(canvas.getByText("Button")).toBeInTheDocument();
