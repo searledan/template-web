@@ -18,7 +18,15 @@
 		"jsx": "react-jsx",
 		"paths": {
 			"@/*": ["./src/*"]
-		}
+		},
+		/* Additional strict type checking */
+		"noUncheckedIndexedAccess": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitOverride": true,
+		"noPropertyAccessFromIndexSignature": true
 	},
 	"include": [
 		"src",
