@@ -3,9 +3,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Router } from "@/Router";
 import { theme } from "@/utils/theme";
-
-import "@mantine/core/styles.css";
 import { DemoProvider } from "./providers/DemoProvider";
+import "@mantine/core/styles.css";
 
 const queryClient = new QueryClient();
 
