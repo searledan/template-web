@@ -17,16 +17,7 @@
 		"noEmit": true,
 		"jsx": "react-jsx",
 		"paths": {
-			"@/*": ["./src/*"],
-			"@components/*": ["./src/components/*"],
-			"@contexts/*": ["./src/contexts/*"],
-			"@hooks/*": ["./src/hooks/*"],
-			"@integrations/*": ["./src/integrations/*"],
-			"@models/*": ["./src/models/*"],
-			"@pages/*": ["./src/pages/*"],
-			"@providers/*": ["./src/providers/*"],
-			"@services/*": ["./src/services/*"],
-			"@utils/*": ["./src/utils/*"]
+			"@/*": ["./src/*"]
 		}
 	},
 	"include": [

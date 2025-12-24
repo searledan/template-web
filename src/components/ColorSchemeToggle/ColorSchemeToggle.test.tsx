@@ -1,4 +1,4 @@
-import { render, screen } from "@utils/test";
+import { render, screen } from "@/utils/test";
 import { ColorSchemeToggle } from "./ColorSchemeToggle";
 
 describe("ColorSchemeToggle component", () => {
