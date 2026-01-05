@@ -35,6 +35,64 @@ Before committing changes:
 3. Update README.md if adding/changing features
 4. Update this CLAUDE.md if changing structure or patterns
 
+### Template Skills
+
+This template includes **Claude Code Skills** to enforce consistent patterns when creating new code. Skills are invoked with slash commands.
+
+#### Available Skills
+
+**`/create-component`** - Create a new React component
+- Generates component file with TypeScript interface
+- Creates test file with Testing Library
+- Creates Storybook story with controls and autodocs
+- Optionally creates CSS Module for custom styling
+- Location: `.claude/skills/create-component.md`
+
+**`/create-page`** - Create a new page component
+- Generates page file with proper naming (`.page.tsx`)
+- Updates Router configuration
+- Includes loading/error/empty state patterns
+- Adds proper route configuration
+- Location: `.claude/skills/create-page.md`
+
+**`/create-hook`** - Create a custom React hook
+- Generates hook file with proper naming (`use[Name].ts`)
+- Adds comprehensive JSDoc documentation
+- Includes TypeScript types for parameters and returns
+- Creates tests for complex hooks
+- Location: `.claude/skills/create-hook.md`
+
+#### Using Skills
+
+When maintaining this template:
+
+```bash
+# Create a new component following template patterns
+/create-component
+
+# Create a new page with routing
+/create-page
+
+# Create a custom hook
+/create-hook
+```
+
+The skills will ask clarifying questions and ensure:
+- Consistent file structure
+- Proper naming conventions
+- Complete test coverage
+- Storybook stories (for components)
+- TypeScript best practices
+- Mantine component usage
+
+#### Updating Skills
+
+When you discover better patterns or practices:
+1. Update the relevant skill file in `.claude/skills/`
+2. Update example components to reflect the new pattern
+3. Document the change in this file
+4. Run full test suite to ensure consistency
+
 ### Configuration Approach
 
 This template uses **"sensible defaults"** rather than explicit configuration:
@@ -296,6 +354,71 @@ export const theme = createTheme({
 3. Create tests: `src/components/NewComponent/NewComponent.test.tsx`
 4. Create Storybook story: `src/components/NewComponent/NewComponent.stories.tsx`
 5. Export from component directory
+
+**Or use the skill for consistency:**
+```bash
+/create-component
+```
+
+### Using Skills for Consistent Code Generation
+
+This template includes Claude Code Skills to maintain consistent patterns across your codebase.
+
+#### Creating Components
+
+Use `/create-component` to generate a new component with:
+- Component file with TypeScript props interface
+- Test file with Testing Library setup
+- Storybook story with controls and autodocs
+- Optional CSS Module for custom styling
+
+**Example:**
+```
+You: /create-component
+Claude: What is the component's purpose?
+You: A user profile card that displays avatar, name, and bio
+Claude: [Creates UserProfileCard with all files]
+```
+
+#### Creating Pages
+
+Use `/create-page` to generate a new page with:
+- Page file with proper naming convention
+- Loading/error/empty state handling
+- Router configuration updates
+- Navigation links
+
+**Example:**
+```
+You: /create-page
+Claude: What is the page's purpose and URL path?
+You: Display list of users at /users
+Claude: [Creates UsersPage and updates Router]
+```
+
+#### Creating Hooks
+
+Use `/create-hook` to generate a custom hook with:
+- Proper naming (`use[Name]`)
+- TypeScript types and JSDoc documentation
+- Tests for complex logic
+- Appropriate pattern (React Query, Context, State, etc.)
+
+**Example:**
+```
+You: /create-hook
+Claude: What problem does this hook solve?
+You: Fetch user data by ID using React Query
+Claude: [Creates useUserById hook]
+```
+
+#### Benefits of Using Skills
+
+- **Consistency**: All code follows the same patterns
+- **Completeness**: Never forget tests or Storybook stories
+- **Best Practices**: Skills enforce TypeScript, testing, and documentation
+- **Speed**: Generate boilerplate quickly
+- **Maintainability**: Easy to understand and update
 
 ### Build and Deployment
 
