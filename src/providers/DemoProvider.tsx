@@ -47,6 +47,7 @@ export const DemoProvider = ({ children }: { children: ReactNode }) => {
 		},
 	});
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: This is a React Query anti-pattern which means including mutation objects in useMemo dependencies causes infinite re-renders
 	const value = useMemo(
 		() => ({
 			demos: data,
@@ -55,7 +56,7 @@ export const DemoProvider = ({ children }: { children: ReactNode }) => {
 			updateMutation,
 			deleteMutation,
 		}),
-		[data, isPending, isError, updateMutation, deleteMutation],
+		[data, isPending, isError],
 	);
 
 	return <DemoContext value={value}>{children}</DemoContext>;
