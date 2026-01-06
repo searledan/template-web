@@ -3,7 +3,7 @@ import { Outlet } from "react-router";
 
 export const Layout = () => {
 	return (
-		<Container>
+		<Container size="lg">
 			<Outlet />
 		</Container>
 	);

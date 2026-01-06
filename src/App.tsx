@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Router } from "@/Router";
 import { theme } from "@/utils/theme";
 import { DemoProvider } from "./providers/DemoProvider";
+import { UserProvider } from "./providers/UserProvider";
 import "@mantine/core/styles.css";
 
 const queryClient = new QueryClient({
@@ -23,7 +24,9 @@ export const App = () => {
 
 			<MantineProvider theme={theme} defaultColorScheme="auto">
 				<DemoProvider>
-					<Router />
+					<UserProvider>
+						<Router />
+					</UserProvider>
 				</DemoProvider>
 			</MantineProvider>
 		</QueryClientProvider>

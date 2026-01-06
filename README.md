@@ -1,6 +1,6 @@
-# Mantine Vite Template
+# Web Template
 
-A modern React application template built with Vite, Mantine UI, and TypeScript. This template is designed to be a solid starting point for future projects, featuring a complete development setup with testing, linting, and component documentation.
+A modern React web application template built with Vite, Mantine UI, and TypeScript. This template is designed to be a solid starting point for future projects, featuring a complete development setup with testing, linting, and component documentation.
 
 Inspired by the [official Mantine Vite template](https://github.com/mantinedev/vite-template/tree/master/src).
 
@@ -30,10 +30,13 @@ This template includes the following technologies and tools:
 
 1. Clone this repository or use it as a template
 2. Install dependencies:
+
    ```bash
    npm install
    ```
+
 3. Start the development server:
+
    ```bash
    npm run dev
    ```
@@ -66,7 +69,7 @@ The application will be available at `http://localhost:5173`
 ## Project Structure
 
 ```
-template-vite/
+template-web/
 ├── .github/
 │   └── dependabot.yml      # Automated dependency updates
 ├── .storybook/
@@ -140,7 +143,7 @@ Biome is configured to use its **recommended defaults** for both linting and for
 - **CSS/HTML**: Formatting disabled (handled by other tools if needed)
 - **VCS Integration**: Enabled to respect `.gitignore`
 
-You can view Biome's defaults at: https://biomejs.dev/reference/configuration/
+You can view Biome's defaults at: <https://biomejs.dev/reference/configuration/>
 
 ### Vite (`vite.config.mjs`)
 
@@ -198,6 +201,7 @@ This template demonstrates several recommended patterns without being overly pre
 ### React Query Patterns
 
 The `DemoProvider` demonstrates:
+
 - Custom hooks wrapping `useQuery` for reusability
 - Proper mutation handling with `onSettled` for cache invalidation
 - Error and loading state management
@@ -241,16 +245,19 @@ The `DemoProvider` demonstrates:
 #### Adding Environment Variables
 
 1. Create `.env` file (gitignored by default):
+
    ```env
    VITE_API_URL=http://localhost:3000/api
    ```
 
 2. Access in code:
+
    ```typescript
    const apiUrl = import.meta.env.VITE_API_URL
    ```
 
 3. Add types in `src/vite-env.d.ts`:
+
    ```typescript
    interface ImportMetaEnv {
      readonly VITE_API_URL: string
@@ -300,6 +307,7 @@ Update `tsconfig.json` and ensure `vite-tsconfig-paths` handles them:
 **Problem**: TypeScript or build errors after `npm install`
 
 **Solution**:
+
 ```bash
 # Clear node_modules and reinstall
 rm -rf node_modules package-lock.json
@@ -314,6 +322,7 @@ npm run typecheck
 **Problem**: `Error: Port 5173 is already in use`
 
 **Solution**:
+
 ```bash
 # Use a different port
 npm run dev -- --port 3000
@@ -324,6 +333,7 @@ npm run dev -- --port 3000
 **Problem**: Files showing formatting errors in editor
 
 **Solution**:
+
 ```bash
 # Auto-fix all formatting issues
 npm run lint:fix
@@ -337,6 +347,7 @@ npm run lint:fix
 **Problem**: DevTools icon not visible in development
 
 **Solution**: The DevTools are included in `App.tsx` and should appear in the bottom-left corner. Check:
+
 - You're running in development mode (`npm run dev`, not `npm run preview`)
 - Browser window is wide enough (DevTools might be collapsed)
 - Try clicking the bottom-left corner to expand
@@ -346,6 +357,7 @@ npm run lint:fix
 **Problem**: `npm run storybook:build` fails
 
 **Solution**:
+
 ```bash
 # Clear Storybook cache
 rm -rf storybook-static
@@ -357,6 +369,7 @@ npm run storybook:build
 **Problem**: Import errors for `@/*` paths
 
 **Solution**:
+
 - Ensure `vite-tsconfig-paths` is installed
 - Check `tsconfig.json` has correct path mappings
 - Restart TypeScript server in your editor
@@ -367,6 +380,7 @@ npm run storybook:build
 **Problem**: Tests fail after updating React or Mantine
 
 **Solution**:
+
 ```bash
 # Update test snapshots if needed
 npm run vitest -- -u
