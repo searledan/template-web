@@ -1,0 +1,43 @@
+[
+	{
+		"id": 1,
+		"name": "Sarah Johnson",
+		"email": "sarah.johnson@example.com",
+		"avatarUrl": "https://i.pravatar.cc/150?img=5",
+		"role": "Admin"
+	},
+	{
+		"id": 2,
+		"name": "Michael Chen",
+		"email": "michael.chen@example.com",
+		"avatarUrl": "https://i.pravatar.cc/150?img=12",
+		"role": "Developer"
+	},
+	{
+		"id": 3,
+		"name": "Emma Williams",
+		"email": "emma.williams@example.com",
+		"avatarUrl": "https://i.pravatar.cc/150?img=9",
+		"role": "Designer"
+	},
+	{
+		"id": 4,
+		"name": "James Martinez",
+		"email": "james.martinez@example.com",
+		"avatarUrl": "https://i.pravatar.cc/150?img=15",
+		"role": "Manager"
+	},
+	{
+		"id": 5,
+		"name": "Olivia Brown",
+		"email": "olivia.brown@example.com",
+		"avatarUrl": "https://i.pravatar.cc/150?img=20",
+		"role": "Developer"
+	},
+	{
+		"id": 6,
+		"name": "David Taylor",
+		"email": "david.taylor@example.com",
+		"avatarUrl": "https://i.pravatar.cc/150?img=8"
+	}
+]
