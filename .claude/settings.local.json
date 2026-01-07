@@ -1,5 +1,9 @@
 {
-	"permissions": {
-		"allow": ["Bash(npm run)", "Bash(npm test)"]
-	}
+  "permissions": {
+    "allow": [
+      "Bash(npm run)",
+      "Bash(npm test)",
+      "Skill(create-component)"
+    ]
+  }
 }
