@@ -1,0 +1,22 @@
+{
+	"name": "template-web",
+	"version": "1.0.0",
+	"description": "Template-specific skills for consistent component, page, and hook creation",
+	"skills": {
+		"create-component": {
+			"name": "create-component",
+			"description": "Create a new React component following the template's patterns and best practices",
+			"file": "skills/create-component.md"
+		},
+		"create-page": {
+			"name": "create-page",
+			"description": "Create a new page component with routing configuration",
+			"file": "skills/create-page.md"
+		},
+		"create-hook": {
+			"name": "create-hook",
+			"description": "Create a custom React hook with proper patterns and tests",
+			"file": "skills/create-hook.md"
+		}
+	}
+}
