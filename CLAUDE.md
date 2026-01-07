@@ -135,6 +135,29 @@ src/
 
 Maintain this structure in examples but don't enforce it in documentation (users may prefer feature-based organisation).
 
+### Import Conventions
+
+**DO NOT use barrel exports (index.ts files).** Import directly from component files.
+
+**Why avoid barrel exports:**
+- **Better tree-shaking**: Direct imports allow bundlers to eliminate unused code more effectively
+- **Faster builds**: Barrel files slow down compilation in larger projects
+- **Clearer imports**: Explicit file paths make it obvious what you're importing
+- **Avoid circular dependencies**: Barrel files can introduce circular dependency issues
+- **Modern tooling**: IDEs autocomplete full paths perfectly
+
+**Correct import pattern:**
+```typescript
+// ✅ Good - Direct import from component file
+import { DemoTableCard } from "@/components/DemoTableCard/DemoTableCard";
+import { useDemo } from "@/hooks/useDemo";
+
+// ❌ Avoid - Barrel export through index.ts
+import { DemoTableCard } from "@/components/DemoTableCard";
+```
+
+This is a modern best practice (2024-2025) that improves build performance and code maintainability.
+
 ### Dependencies Management
 
 - **Keep current**: Template should use latest stable versions
@@ -214,6 +237,26 @@ When adding new features:
 - **Stories**: `ComponentName.stories.tsx`
 - **Styles**: `ComponentName.module.css` (if using CSS Modules)
 - **Utilities**: `utilityName.ts` (camelCase)
+
+#### Import Patterns
+
+**Always import directly from the component file** - do not use barrel exports (index.ts files).
+
+```typescript
+// ✅ Correct - Direct imports
+import { DemoTableCard } from "@/components/DemoTableCard/DemoTableCard";
+import { useDemo } from "@/hooks/useDemo";
+import { fetchDemos } from "@/services/demoService";
+
+// ❌ Incorrect - Barrel exports through index.ts
+import { DemoTableCard } from "@/components/DemoTableCard";
+```
+
+**Benefits:**
+- Better tree-shaking and smaller bundles
+- Faster build times
+- No circular dependency issues
+- Clear and explicit import paths
 
 ### Code Patterns
 

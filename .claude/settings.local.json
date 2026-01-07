@@ -1,9 +1,13 @@
 {
-  "permissions": {
-    "allow": [
-      "Bash(npm run)",
-      "Bash(npm test)",
-      "Skill(create-component)"
-    ]
-  }
+	"permissions": {
+		"allow": [
+			"Bash(npm run)",
+			"Bash(npm test)",
+			"Skill(create-component)",
+			"Bash(npm run lint)",
+			"Bash(npm run vitest:*)",
+			"Bash(npm run lint:fix:*)",
+			"Bash(npm run typecheck:*)"
+		]
+	}
 }

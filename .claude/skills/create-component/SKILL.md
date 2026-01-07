@@ -259,6 +259,7 @@ const viewport = useViewportSize();
 ## Anti-Patterns to Avoid
 
 ❌ Default exports
+❌ Barrel exports (index.ts files - import directly from component files)
 ❌ Prop drilling (use Context if needed)
 ❌ Inline styles (use Mantine props or CSS Modules)
 ❌ Any types (always type props properly)
@@ -269,10 +270,9 @@ const viewport = useViewportSize();
 
 ## After Creation
 
-1. **Export from Directory**: Add to `index.ts` if using barrel exports
+1. **Test Integration**: Use component in a page to verify it works with providers
 2. **Update Documentation**: Add to CLAUDE.md if it's a pattern others should follow
-3. **Test Integration**: Use component in a page to verify it works with providers
-4. **Review**: Ensure it follows all template patterns
+3. **Review**: Ensure it follows all template patterns
 
 ## Questions to Ask User
 
