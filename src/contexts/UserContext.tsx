@@ -3,7 +3,7 @@ import { createContext } from "react";
 import type { User } from "@/models/User";
 
 interface UserContextType {
-	users: User[] | undefined;
+	users: User[];
 	isPending: boolean;
 	isError: boolean;
 	updateMutation: UseMutationResult<boolean, Error, { id: number; user: User }>;

@@ -19,9 +19,16 @@ export const DemoPage = () => {
 			</Container>
 		);
 
+	if (!demos || demos.length === 0)
+		return (
+			<Text py="lg" px="xl">
+				No demo to display.
+			</Text>
+		);
+
 	return (
 		<Container py="lg">
-			<DemoTableCard data={demos ?? []} title="Demo Data" />
+			<DemoTableCard data={demos} title="Demos" />
 		</Container>
 	);
 };

@@ -1,5 +1,6 @@
-import { Table, Text } from "@mantine/core";
+import { Container, Text } from "@mantine/core";
 import { useParams } from "react-router";
+import { DemoTableCard } from "@/components/DemoTableCard/DemoTableCard";
 import { useDemoById } from "@/hooks/useDemoById";
 
 export const DemoIdPage = () => {
@@ -32,21 +33,8 @@ export const DemoIdPage = () => {
 		);
 
 	return (
-		<Table>
-			<Table.Thead>
-				<Table.Tr>
-					<Table.Th>Demo ID</Table.Th>
-					<Table.Th>Demo Name</Table.Th>
-					<Table.Th>Demo Date</Table.Th>
-				</Table.Tr>
-			</Table.Thead>
-			<Table.Tbody>
-				<Table.Tr key={demo.id}>
-					<Table.Td>{demo.id}</Table.Td>
-					<Table.Td>{demo.name}</Table.Td>
-					<Table.Td>{demo.date}</Table.Td>
-				</Table.Tr>
-			</Table.Tbody>
-		</Table>
+		<Container py="lg">
+			<DemoTableCard data={[demo]} title={`Demo ${demo.id}`} />
+		</Container>
 	);
 };
