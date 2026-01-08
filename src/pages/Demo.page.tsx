@@ -1,5 +1,6 @@
 import { Container, Text } from "@mantine/core";
 import { DemoTableCard } from "@/components/DemoTableCard/DemoTableCard";
+import { DemoTableCardSkeleton } from "@/components/DemoTableCard/DemoTableCardSkeleton";
 import { useDemo } from "@/hooks/useDemo";
 
 export const DemoPage = () => {
@@ -8,7 +9,7 @@ export const DemoPage = () => {
 	if (isPending)
 		return (
 			<Container py="lg">
-				<Text>Loading demos...</Text>
+				<DemoTableCardSkeleton title="Demos" rows={5} />
 			</Container>
 		);
 

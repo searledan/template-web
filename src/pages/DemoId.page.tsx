@@ -1,6 +1,7 @@
 import { Container, Text } from "@mantine/core";
 import { useParams } from "react-router";
 import { DemoTableCard } from "@/components/DemoTableCard/DemoTableCard";
+import { DemoTableCardSkeleton } from "@/components/DemoTableCard/DemoTableCardSkeleton";
 import { useDemoById } from "@/hooks/useDemoById";
 
 export const DemoIdPage = () => {
@@ -13,9 +14,9 @@ export const DemoIdPage = () => {
 
 	if (isPending)
 		return (
-			<Text py="lg" px="xl">
-				Loading demo...
-			</Text>
+			<Container py="lg">
+				<DemoTableCardSkeleton title={`Demo ${id}`} rows={1} />
+			</Container>
 		);
 
 	if (isError)

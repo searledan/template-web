@@ -43,24 +43,25 @@ This template includes **Claude Code Skills** to enforce consistent patterns whe
 
 **`/create-component`** - Create a new React component
 - Generates component file with TypeScript interface
+- Creates skeleton loading state component
 - Creates test file with Testing Library
 - Creates Storybook story with controls and autodocs
 - Optionally creates CSS Module for custom styling
-- Location: `.claude/skills/create-component.md`
+- Location: `.claude/skills/create-component/SKILL.md`
 
 **`/create-page`** - Create a new page component
 - Generates page file with proper naming (`.page.tsx`)
 - Updates Router configuration
 - Includes loading/error/empty state patterns
 - Adds proper route configuration
-- Location: `.claude/skills/create-page.md`
+- Location: `.claude/skills/create-page/SKILL.md`
 
 **`/create-hook`** - Create a custom React hook
 - Generates hook file with proper naming (`use[Name].ts`)
 - Adds comprehensive JSDoc documentation
 - Includes TypeScript types for parameters and returns
 - Creates tests for complex hooks
-- Location: `.claude/skills/create-hook.md`
+- Location: `.claude/skills/create-hook/SKILL.md`
 
 #### Using Skills
 
@@ -374,6 +375,51 @@ export const theme = createTheme({
 - CSS Modules for custom styles (optional)
 - Mantine's emotion-based styling for complex cases
 
+### Skeleton Loading States
+
+This template follows a consistent pattern for loading states using skeleton components.
+
+#### Pattern
+
+Each component that displays data should have a corresponding skeleton component:
+
+```
+src/components/ComponentName/
+├── ComponentName.tsx
+├── ComponentNameSkeleton.tsx
+├── ComponentName.test.tsx
+└── ComponentName.stories.tsx
+```
+
+#### Usage
+
+```typescript
+import { ComponentName } from "@/components/ComponentName/ComponentName";
+import { ComponentNameSkeleton } from "@/components/ComponentName/ComponentNameSkeleton";
+
+// In your page or component
+{isPending ? (
+  <ComponentNameSkeleton />
+) : (
+  <ComponentName data={data} />
+)}
+```
+
+#### Best Practices
+
+- **Mirror structure**: Skeleton should match the visual layout of the actual component
+- **Layout props only**: Include props that affect layout (rows, columns) but not data props
+- **Use Mantine Skeleton**: Use `<Skeleton>` component from Mantine for placeholders
+- **Keep it simple**: Don't need pixel-perfect matching, approximate sizes are fine
+- **Co-locate**: Always keep skeleton in the same folder as the component
+
+#### Example
+
+See `src/components/DemoTableCard/` for a complete example:
+- `DemoTableCard.tsx` - Main component
+- `DemoTableCardSkeleton.tsx` - Loading state
+- Used in `Demo.page.tsx` and `DemoId.page.tsx`
+
 ### Common Tasks
 
 #### Adding a New Page
@@ -394,9 +440,9 @@ export const theme = createTheme({
 
 1. Create component: `src/components/NewComponent/NewComponent.tsx`
 2. Add props interface
-3. Create tests: `src/components/NewComponent/NewComponent.test.tsx`
-4. Create Storybook story: `src/components/NewComponent/NewComponent.stories.tsx`
-5. Export from component directory
+3. Create skeleton: `src/components/NewComponent/NewComponentSkeleton.tsx`
+4. Create tests: `src/components/NewComponent/NewComponent.test.tsx`
+5. Create Storybook story: `src/components/NewComponent/NewComponent.stories.tsx`
 
 **Or use the skill for consistency:**
 ```bash
@@ -411,6 +457,7 @@ This template includes Claude Code Skills to maintain consistent patterns across
 
 Use `/create-component` to generate a new component with:
 - Component file with TypeScript props interface
+- Skeleton loading state component
 - Test file with Testing Library setup
 - Storybook story with controls and autodocs
 - Optional CSS Module for custom styling

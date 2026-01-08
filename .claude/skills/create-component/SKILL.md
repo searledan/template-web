@@ -11,9 +11,10 @@ When the user asks to "create a component" or "add a new component", use this sk
 Create the following files in `src/components/[ComponentName]/`:
 
 1. **[ComponentName].tsx** - Main component file
-2. **[ComponentName].test.tsx** - Test file
-3. **[ComponentName].stories.tsx** - Storybook story
-4. **[ComponentName].module.css** - CSS Module (optional, only if custom styling needed)
+2. **[ComponentName]Skeleton.tsx** - Skeleton loading state component
+3. **[ComponentName].test.tsx** - Test file
+4. **[ComponentName].stories.tsx** - Storybook story
+5. **[ComponentName].module.css** - CSS Module (optional, only if custom styling needed)
 
 ## Component Template Pattern
 
@@ -60,7 +61,80 @@ export const [ComponentName] = ({
 - ✅ Optional JSDoc for complex components
 - ✅ Import CSS Module only if needed
 
-### 2. Test File ([ComponentName].test.tsx)
+### 2. Skeleton Component ([ComponentName]Skeleton.tsx)
+
+```typescript
+import { Skeleton, /* other Mantine components */ } from "@mantine/core";
+
+export interface [ComponentName]SkeletonProps {
+	/** Optional props that affect skeleton layout (e.g., rows, columns) */
+	propName?: string;
+	// Include layout-affecting props from main component if needed
+}
+
+/**
+ * Skeleton loading state for [ComponentName] component.
+ * Displays a placeholder that mirrors the structure of [ComponentName].
+ *
+ * @example
+ * ```tsx
+ * {isPending ? (
+ *   <[ComponentName]Skeleton />
+ * ) : (
+ *   <[ComponentName] data={data} />
+ * )}
+ * ```
+ */
+export const [ComponentName]Skeleton = ({
+	propName = "default",
+}: [ComponentName]SkeletonProps) => {
+	return (
+		<div>
+			{/* Mirror the structure of the main component */}
+			<Skeleton height={20} width="60%" mb="sm" />
+			<Skeleton height={40} width="100%" mb="sm" />
+			<Skeleton height={20} width="80%" />
+		</div>
+	);
+};
+```
+
+**Key Patterns:**
+- ✅ File name matches component: `[ComponentName]Skeleton.tsx`
+- ✅ Stored in same folder as component
+- ✅ Mirrors the visual structure of the main component
+- ✅ Use Mantine's `Skeleton` component for placeholders
+- ✅ Include props that affect layout (e.g., number of rows, columns)
+- ✅ Exclude props related to data or behaviour
+- ✅ Add JSDoc with usage example showing conditional rendering
+
+**Skeleton Best Practices:**
+- Match the approximate size and layout of the real component
+- Use `height`, `width`, `radius` props to match actual elements
+- Use `mb`, `mt`, etc. for spacing that matches the component
+- For repeated elements (like lists), accept a prop for count
+- Keep it simple - don't need to match every detail
+
+**Example Skeleton Patterns:**
+
+```typescript
+// Card with multiple skeleton rows
+Array.from({ length: rows }, (_, index) => (
+	<Skeleton key={index} height={20} width="100%" mb="xs" />
+))
+
+// Circular skeleton for avatars
+<Skeleton circle height={40} />
+
+// Rectangle skeleton for images
+<Skeleton height={200} radius="md" />
+
+// Text-like skeletons
+<Skeleton height={16} width="60%" />  // Single line
+<Skeleton height={12} width="80%" />  // Smaller text
+```
+
+### 4. Test File ([ComponentName].test.tsx)
 
 ```typescript
 import { render, screen } from "@/utils/test";
@@ -98,7 +172,7 @@ describe("[ComponentName] component", () => {
 - ✅ Test component behavior, not implementation
 - ✅ Multiple test cases for different scenarios
 
-### 3. Storybook Story ([ComponentName].stories.tsx)
+### 5. Storybook Story ([ComponentName].stories.tsx)
 
 ```typescript
 import type { Meta, StoryObj } from "@storybook/react-vite";
@@ -156,8 +230,21 @@ export const Alternative: Story = {
 - ✅ Multiple story variants showing different states
 - ✅ Optional `play` function for interaction tests
 - ✅ Use `satisfies Meta` for type safety
+- ✅ Include a Loading story using the skeleton component
 
-### 4. CSS Module ([ComponentName].module.css) - Optional
+**Optional: Add Skeleton Loading Story**
+
+```typescript
+import { [ComponentName]Skeleton } from "./[ComponentName]Skeleton";
+
+export const Loading: Story = {
+	render: () => <[ComponentName]Skeleton />,
+};
+```
+
+This allows designers and developers to see the loading state in Storybook alongside other component states.
+
+### 6. CSS Module ([ComponentName].module.css) - Optional
 
 ```css
 .container {
@@ -207,19 +294,27 @@ export const Alternative: Story = {
    - Implement component logic
    - Use Mantine components where possible
 
-3. **Write Tests**:
+3. **Create Skeleton Component**:
+   - Create skeleton file in same folder
+   - Mirror the structure of the main component
+   - Use Mantine Skeleton components
+   - Include layout-affecting props (rows, columns, etc.)
+   - Add JSDoc with conditional rendering example
+
+4. **Write Tests**:
    - At minimum, test that component renders
    - Test prop variations
    - Test user interactions if applicable
    - Test error/edge cases
 
-4. **Create Storybook Story**:
+5. **Create Storybook Story**:
    - Add meta configuration with autodocs
    - Create Default story
    - Add 2-3 variant stories showing different states
    - Add argTypes for all controllable props
+   - Optionally add Loading story using skeleton
 
-5. **Verify Quality**:
+6. **Verify Quality**:
    ```bash
    npm run typecheck  # Check TypeScript
    npm run lint       # Check code quality
@@ -231,6 +326,7 @@ export const Alternative: Story = {
 
 - **Simple Component**: `src/components/ColorSchemeToggle/` (no CSS Module)
 - **Complex Component**: `src/components/Welcome/` (with CSS Module)
+- **Component with Skeleton**: `src/components/DemoTableCard/` (includes skeleton loading state)
 
 ## Common Mantine Patterns
 

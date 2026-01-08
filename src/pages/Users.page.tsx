@@ -1,6 +1,7 @@
 import { Button, Grid, Stack, Text, Title } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { UserCard } from "@/components/UserCard/UserCard";
+import { UserCardSkeleton } from "@/components/UserCard/UserCardSkeleton";
 import { useUsers } from "@/hooks/useUsers";
 
 /**
@@ -15,8 +16,26 @@ export const UsersPage = () => {
 	// Handle loading state
 	if (isPending) {
 		return (
-			<Stack py="lg" px="xl">
-				<Text>Loading users...</Text>
+			<Stack gap="xl" py="lg">
+				<Button component={Link} to="/" variant="subtle" w="fit-content">
+					← Back to Home
+				</Button>
+
+				<div>
+					<Title order={1}>Team Members</Title>
+					<Text c="dimmed" mt="xs">
+						Browse our team directory
+					</Text>
+				</div>
+
+				<Grid>
+					{Array.from({ length: 6 }, (_, index) => (
+						// biome-ignore lint/suspicious/noArrayIndexKey: Static skeleton items with no state
+						<Grid.Col key={index} span={{ base: 12, sm: 6, lg: 4 }}>
+							<UserCardSkeleton withRole />
+						</Grid.Col>
+					))}
+				</Grid>
 			</Stack>
 		);
 	}
