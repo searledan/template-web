@@ -41,8 +41,23 @@ export const UserCard = ({
 			padding="lg"
 			radius="md"
 			withBorder
-			style={{ cursor: onClick ? "pointer" : "default" }}
+			style={{
+				cursor: onClick ? "pointer" : "default",
+				transition: "transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out",
+			}}
 			onClick={onClick}
+			onMouseEnter={(e) => {
+				if (onClick) {
+					e.currentTarget.style.transform = "translateY(-4px)";
+					e.currentTarget.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.15)";
+				}
+			}}
+			onMouseLeave={(e) => {
+				if (onClick) {
+					e.currentTarget.style.transform = "translateY(0)";
+					e.currentTarget.style.boxShadow = "";
+				}
+			}}
 		>
 			<Group>
 				<Avatar src={avatarUrl} size="md" radius="xl" alt={name} />

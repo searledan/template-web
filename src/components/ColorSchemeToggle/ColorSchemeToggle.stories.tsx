@@ -9,9 +9,10 @@ const meta = {
 	},
 	tags: ["autodocs"],
 	argTypes: {
-		buttonColor: {
-			control: { type: "color" },
-			description: "Custom color for the toggle buttons",
+		variant: {
+			control: { type: "select" },
+			options: ["default", "compact"],
+			description: "Visual variant of the toggle",
 		},
 	},
 } satisfies Meta<typeof ColorSchemeToggle>;
@@ -20,17 +21,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-	args: {},
-};
-
-export const CustomColor: Story = {
 	args: {
-		buttonColor: "#7950f2",
+		variant: "default",
 	},
 };
 
-export const RedTheme: Story = {
+export const Compact: Story = {
 	args: {
-		buttonColor: "#fa5252",
+		variant: "compact",
 	},
 };

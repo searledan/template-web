@@ -1,5 +1,30 @@
-import { createTheme } from "@mantine/core";
+import { Button, Card, createTheme } from "@mantine/core";
 
 export const theme = createTheme({
-	/** Put your mantine theme override here */
+	/** Smooth transitions for interactive elements */
+	components: {
+		Button: Button.extend({
+			defaultProps: {
+				style: {
+					transition: "all 0.2s ease-in-out",
+				},
+			},
+		}),
+		Card: Card.extend({
+			defaultProps: {
+				style: {
+					transition: "box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out",
+				},
+			},
+		}),
+		TextInput: {
+			defaultProps: {
+				styles: {
+					input: {
+						transition: "border-color 0.2s",
+					},
+				},
+			},
+		},
+	},
 });

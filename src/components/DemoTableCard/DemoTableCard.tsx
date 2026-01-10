@@ -1,4 +1,5 @@
 import { Badge, Card, Table, Text } from "@mantine/core";
+import { useNavigate } from "react-router";
 import type { Demo } from "@/models/Demo";
 
 export interface DemoTableCardProps {
@@ -13,6 +14,7 @@ export interface DemoTableCardProps {
 /**
  * A card component that displays demo data in a table format.
  * Shows ID, Name, and Date columns for each demo item.
+ * Rows are clickable and navigate to the detail page.
  *
  * @example
  * ```tsx
@@ -24,8 +26,14 @@ export const DemoTableCard = ({
 	title = "Demo Data",
 	withBorder = true,
 }: DemoTableCardProps) => {
+	const navigate = useNavigate();
+
 	const rows = data.map((item) => (
-		<Table.Tr key={item.id}>
+		<Table.Tr
+			key={item.id}
+			style={{ cursor: "pointer" }}
+			onClick={() => navigate(`/demo/${item.id}`)}
+		>
 			<Table.Td>
 				<Badge variant="light" size="sm">
 					{item.id}
