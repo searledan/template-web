@@ -1,7 +1,6 @@
 import {
 	Alert,
 	Center,
-	Group,
 	Pagination,
 	Stack,
 	Text,
@@ -99,14 +98,18 @@ export const DemoPage = () => {
 			<Stack gap="md">
 				<DemoTableCard data={paginatedDemos} title="All Demos" />
 				{totalPages > 1 && (
-					<Group justify="center">
+					<Stack gap="xs" align="center">
+						<Text size="sm" c="dimmed">
+							Showing {startIndex + 1}-{Math.min(endIndex, demos.length)} of{" "}
+							{demos.length} items
+						</Text>
 						<Pagination
 							total={totalPages}
 							value={activePage}
 							onChange={setActivePage}
 							size="sm"
 						/>
-					</Group>
+					</Stack>
 				)}
 			</Stack>
 		</Stack>

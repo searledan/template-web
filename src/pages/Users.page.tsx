@@ -1,5 +1,7 @@
 import {
+	ActionIcon,
 	Alert,
+	Button,
 	Center,
 	Grid,
 	Stack,
@@ -9,7 +11,12 @@ import {
 	Title,
 } from "@mantine/core";
 import { useHotkeys } from "@mantine/hooks";
-import { IconAlertCircle, IconSearch, IconUsers } from "@tabler/icons-react";
+import {
+	IconAlertCircle,
+	IconSearch,
+	IconUsers,
+	IconX,
+} from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 import { UserCard } from "@/components/UserCard/UserCard";
 import { UserCardSkeleton } from "@/components/UserCard/UserCardSkeleton";
@@ -137,6 +144,17 @@ export const UsersPage = () => {
 					ref={searchInputRef}
 					placeholder="Search team members... (Press / to focus)"
 					leftSection={<IconSearch size={16} />}
+					rightSection={
+						searchQuery && (
+							<ActionIcon
+								variant="subtle"
+								onClick={() => setSearchQuery("")}
+								aria-label="Clear search"
+							>
+								<IconX size={16} />
+							</ActionIcon>
+						)
+					}
 					value={searchQuery}
 					onChange={(event) => setSearchQuery(event.currentTarget.value)}
 				/>
@@ -157,8 +175,11 @@ export const UsersPage = () => {
 							No results found
 						</Text>
 						<Text size="sm" c="dimmed">
-							Try adjusting your search query
+							Try adjusting your search query or clear the search
 						</Text>
+						<Button variant="light" onClick={() => setSearchQuery("")}>
+							Clear Search
+						</Button>
 					</Stack>
 				</Center>
 			) : (

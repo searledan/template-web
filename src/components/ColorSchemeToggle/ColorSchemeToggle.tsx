@@ -4,7 +4,12 @@ import {
 	Tooltip,
 	useMantineColorScheme,
 } from "@mantine/core";
-import { IconDeviceDesktop, IconMoon, IconSun } from "@tabler/icons-react";
+import {
+	IconCheck,
+	IconDeviceDesktop,
+	IconMoon,
+	IconSun,
+} from "@tabler/icons-react";
 
 export interface ColorSchemeToggleProps {
 	/** Compact variant for navigation header */
@@ -45,6 +50,9 @@ export const ColorSchemeToggle = ({
 				<Menu.Label>Color Scheme</Menu.Label>
 				<Menu.Item
 					leftSection={<IconSun size={16} />}
+					rightSection={
+						colorScheme === "light" ? <IconCheck size={16} /> : null
+					}
 					onClick={() => setColorScheme("light")}
 					color={colorScheme === "light" ? "blue" : undefined}
 				>
@@ -52,6 +60,7 @@ export const ColorSchemeToggle = ({
 				</Menu.Item>
 				<Menu.Item
 					leftSection={<IconMoon size={16} />}
+					rightSection={colorScheme === "dark" ? <IconCheck size={16} /> : null}
 					onClick={() => setColorScheme("dark")}
 					color={colorScheme === "dark" ? "blue" : undefined}
 				>
@@ -59,6 +68,7 @@ export const ColorSchemeToggle = ({
 				</Menu.Item>
 				<Menu.Item
 					leftSection={<IconDeviceDesktop size={16} />}
+					rightSection={colorScheme === "auto" ? <IconCheck size={16} /> : null}
 					onClick={() => setColorScheme("auto")}
 					color={colorScheme === "auto" ? "blue" : undefined}
 				>

@@ -30,6 +30,12 @@ export const Layout = () => {
 							component={Link}
 							to="/users"
 							variant={isActive("/users") ? "light" : "subtle"}
+							style={{
+								borderBottom: isActive("/users")
+									? "2px solid var(--mantine-color-blue-6)"
+									: "2px solid transparent",
+								borderRadius: isActive("/users") ? "4px 4px 0 0" : undefined,
+							}}
 						>
 							Team
 						</Button>
@@ -37,6 +43,12 @@ export const Layout = () => {
 							component={Link}
 							to="/demo"
 							variant={isActive("/demo") ? "light" : "subtle"}
+							style={{
+								borderBottom: isActive("/demo")
+									? "2px solid var(--mantine-color-blue-6)"
+									: "2px solid transparent",
+								borderRadius: isActive("/demo") ? "4px 4px 0 0" : undefined,
+							}}
 						>
 							Demos
 						</Button>
@@ -47,9 +59,28 @@ export const Layout = () => {
 
 			<AppShell.Main>
 				<Container size="lg">
-					<Outlet />
+					<div
+						key={location.pathname}
+						style={{
+							animation: "fadeIn 0.3s ease-in",
+						}}
+					>
+						<Outlet />
+					</div>
 				</Container>
 			</AppShell.Main>
+			<style>{`
+				@keyframes fadeIn {
+					from {
+						opacity: 0;
+						transform: translateY(10px);
+					}
+					to {
+						opacity: 1;
+						transform: translateY(0);
+					}
+				}
+			`}</style>
 		</AppShell>
 	);
 };

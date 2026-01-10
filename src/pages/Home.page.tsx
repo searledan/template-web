@@ -50,9 +50,6 @@ export const HomePage = () => {
 				>
 					<Stack gap="md">
 						<div>
-							<Badge color="blue" size="lg" mb="xs">
-								6 Members
-							</Badge>
 							<Title order={3}>Team Directory</Title>
 						</div>
 						<Text size="sm" c="dimmed">
@@ -85,9 +82,6 @@ export const HomePage = () => {
 				>
 					<Stack gap="md">
 						<div>
-							<Badge color="green" size="lg" mb="xs">
-								23 Items
-							</Badge>
 							<Title order={3}>Demo Data</Title>
 						</div>
 						<Text size="sm" c="dimmed">

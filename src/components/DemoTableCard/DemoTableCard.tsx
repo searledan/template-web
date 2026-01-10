@@ -1,4 +1,6 @@
 import { Badge, Card, Table, Text } from "@mantine/core";
+import { useHotkeys } from "@mantine/hooks";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import type { Demo } from "@/models/Demo";
 
@@ -15,6 +17,7 @@ export interface DemoTableCardProps {
  * A card component that displays demo data in a table format.
  * Shows ID, Name, and Date columns for each demo item.
  * Rows are clickable and navigate to the detail page.
+ * Supports keyboard navigation with arrow keys and Enter.
  *
  * @example
  * ```tsx
@@ -27,12 +30,65 @@ export const DemoTableCard = ({
 	withBorder = true,
 }: DemoTableCardProps) => {
 	const navigate = useNavigate();
+	const [selectedIndex, setSelectedIndex] = useState<number>(-1);
+	const tableRef = useRef<HTMLTableSectionElement>(null);
 
-	const rows = data.map((item) => (
+	// Keyboard navigation
+	useHotkeys([
+		[
+			"ArrowDown",
+			() => {
+				if (selectedIndex < data.length - 1) {
+					setSelectedIndex(selectedIndex + 1);
+				}
+			},
+		],
+		[
+			"ArrowUp",
+			() => {
+				if (selectedIndex > 0) {
+					setSelectedIndex(selectedIndex - 1);
+				}
+			},
+		],
+		[
+			"Enter",
+			() => {
+				if (selectedIndex >= 0 && selectedIndex < data.length) {
+					const selectedItem = data[selectedIndex];
+					if (selectedItem) {
+						navigate(`/demo/${selectedItem.id}`);
+					}
+				}
+			},
+		],
+	]);
+
+	const handleRowClick = (id: number, index: number) => {
+		setSelectedIndex(index);
+		navigate(`/demo/${id}`);
+	};
+
+	const rows = data.map((item, index) => (
 		<Table.Tr
 			key={item.id}
-			style={{ cursor: "pointer" }}
-			onClick={() => navigate(`/demo/${item.id}`)}
+			style={{
+				cursor: "pointer",
+				transition: "background-color 0.15s ease, transform 0.15s ease",
+				backgroundColor:
+					selectedIndex === index
+						? "var(--mantine-color-blue-light)"
+						: undefined,
+			}}
+			onClick={() => handleRowClick(item.id, index)}
+			onMouseEnter={(e) => {
+				e.currentTarget.style.transform = "scale(1.01)";
+			}}
+			onMouseLeave={(e) => {
+				e.currentTarget.style.transform = "scale(1)";
+			}}
+			tabIndex={0}
+			onFocus={() => setSelectedIndex(index)}
 		>
 			<Table.Td>
 				<Badge variant="light" size="sm">
@@ -78,7 +134,7 @@ export const DemoTableCard = ({
 								<Table.Th>Date</Table.Th>
 							</Table.Tr>
 						</Table.Thead>
-						<Table.Tbody>{rows}</Table.Tbody>
+						<Table.Tbody ref={tableRef}>{rows}</Table.Tbody>
 					</Table>
 				)}
 			</Card.Section>
