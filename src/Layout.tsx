@@ -58,7 +58,7 @@ export const Layout = () => {
 			</AppShell.Header>
 
 			<AppShell.Main>
-				<Container size="lg">
+				<Container size="xl">
 					<div
 						key={location.pathname}
 						style={{
