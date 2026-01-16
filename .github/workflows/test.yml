@@ -42,8 +42,8 @@ jobs:
       - name: Run linting
         run: npm run lint
 
-      - name: Run tests
-        run: npm run vitest
+      - name: Run unit tests
+        run: npm run vitest:unit
 
       - name: Build
         run: npm run build

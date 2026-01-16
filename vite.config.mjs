@@ -21,6 +21,13 @@ export default defineConfig({
 		projects: [
 			{
 				extends: true,
+				test: {
+					name: "unit",
+					setupFiles: ["./vitest.setup.mjs"],
+				},
+			},
+			{
+				extends: true,
 				plugins: [
 					storybookTest({
 						configDir: path.join(dirname, ".storybook"),
