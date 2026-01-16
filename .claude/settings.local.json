@@ -9,7 +9,9 @@
 			"Bash(npm test)",
 			"mcp__plugin_playwright_playwright",
 			"Bash(npm run dev:*)",
-			"mcp__plugin_context7_context7"
+			"mcp__plugin_context7_context7",
+			"Bash(npm run test:*)",
+			"Bash(npm run storybook:build:*)"
 		]
 	}
 }
