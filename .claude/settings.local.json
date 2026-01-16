@@ -1,14 +1,10 @@
 {
-  "permissions": {
-    "allow": [
-      "Skill(create-component)",
-      "Bash(npm run lint)",
-      "Bash(npm run vitest:*)",
-      "Bash(npm run lint:fix:*)",
-      "Bash(npm run typecheck:*)",
-      "Bash(npm test)",
-      "mcp__plugin_playwright_playwright",
-      "Bash(npm run dev:*)"
-    ]
-  }
+	"permissions": {
+		"allow": [
+			"Bash(npm:*)",
+			"Skill(create-component)",
+			"mcp__plugin_playwright_playwright",
+			"mcp__plugin_context7_context7"
+		]
+	}
 }

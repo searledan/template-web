@@ -1,10 +1,10 @@
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { DemoProvider } from "@/providers/DemoProvider";
+import { UserProvider } from "@/providers/UserProvider";
 import { Router } from "@/Router";
 import { theme } from "@/utils/theme";
-import { DemoProvider } from "./providers/DemoProvider";
-import { UserProvider } from "./providers/UserProvider";
 import "@mantine/core/styles.css";
 
 const queryClient = new QueryClient({

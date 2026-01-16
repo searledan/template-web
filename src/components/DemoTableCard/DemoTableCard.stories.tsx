@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { MemoryRouter } from "react-router";
 import type { Demo } from "@/models/Demo";
 import { DemoTableCard } from "./DemoTableCard";
 
@@ -13,6 +14,13 @@ const sampleData: Demo[] = [
 const meta = {
 	title: "Components/DemoTableCard",
 	component: DemoTableCard,
+	decorators: [
+		(Story) => (
+			<MemoryRouter>
+				<Story />
+			</MemoryRouter>
+		),
+	],
 	parameters: {
 		layout: "padded",
 	},
