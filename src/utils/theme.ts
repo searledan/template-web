@@ -1,4 +1,4 @@
-import { Button, Card, createTheme } from "@mantine/core";
+import { Button, Card, createTheme, TextInput } from "@mantine/core";
 
 export const theme = createTheme({
 	/** Smooth transitions for interactive elements */
@@ -17,7 +17,7 @@ export const theme = createTheme({
 				},
 			},
 		}),
-		TextInput: {
+		TextInput: TextInput.extend({
 			defaultProps: {
 				styles: {
 					input: {
@@ -25,6 +25,6 @@ export const theme = createTheme({
 					},
 				},
 			},
-		},
+		}),
 	},
 });

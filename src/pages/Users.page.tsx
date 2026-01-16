@@ -38,17 +38,18 @@ export const UsersPage = () => {
 		document.title = "Team Members | Template Web";
 	}, []);
 
-	// Keyboard shortcut: Press "/" to focus search
+	// Keyboard shortcut: Press "Ctrl+K" or "Cmd+K" to focus search
 	useHotkeys([
-		["slash", () => searchInputRef.current?.focus(), { preventDefault: true }],
+		["mod+K", () => searchInputRef.current?.focus(), { preventDefault: true }],
 	]);
 
 	// Filter users based on search query
+	const lowerSearchQuery = searchQuery.toLowerCase();
 	const filteredUsers = users?.filter(
 		(user) =>
-			user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			user.role?.toLowerCase().includes(searchQuery.toLowerCase()),
+			user.name.toLowerCase().includes(lowerSearchQuery) ||
+			user.email.toLowerCase().includes(lowerSearchQuery) ||
+			user.role?.toLowerCase().includes(lowerSearchQuery),
 	);
 
 	// Handle loading state
@@ -142,7 +143,7 @@ export const UsersPage = () => {
 			<Stack gap="xs">
 				<TextInput
 					ref={searchInputRef}
-					placeholder="Search team members... (Press / to focus)"
+					placeholder="Search team members... (Press Ctrl+K to focus)"
 					leftSection={<IconSearch size={16} />}
 					rightSection={
 						searchQuery && (

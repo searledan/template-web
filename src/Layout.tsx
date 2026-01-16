@@ -2,6 +2,8 @@ import { AppShell, Button, Container, Group, Title } from "@mantine/core";
 import { Link, Outlet, useLocation } from "react-router";
 import { ColorSchemeToggle } from "@/components/ColorSchemeToggle/ColorSchemeToggle";
 
+import "./Layout.css";
+
 export const Layout = () => {
 	const location = useLocation();
 
@@ -69,18 +71,6 @@ export const Layout = () => {
 					</div>
 				</Container>
 			</AppShell.Main>
-			<style>{`
-				@keyframes fadeIn {
-					from {
-						opacity: 0;
-						transform: translateY(10px);
-					}
-					to {
-						opacity: 1;
-						transform: translateY(0);
-					}
-				}
-			`}</style>
 		</AppShell>
 	);
 };

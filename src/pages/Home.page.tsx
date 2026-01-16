@@ -2,7 +2,29 @@ import { Button, Card, SimpleGrid, Stack, Text, Title } from "@mantine/core";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
+const useCardHoverEffect = () => {
+	const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+		e.currentTarget.style.transform = "translateY(-4px)";
+		e.currentTarget.style.boxShadow = "0 8px 16px rgba(0, 0, 0, 0.15)";
+	};
+
+	const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+		e.currentTarget.style.transform = "translateY(0)";
+		e.currentTarget.style.boxShadow = "";
+	};
+
+	return {
+		style: {
+			transition: "transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out",
+		},
+		onMouseEnter: handleMouseEnter,
+		onMouseLeave: handleMouseLeave,
+	};
+};
+
 export const HomePage = () => {
+	const cardHoverProps = useCardHoverEffect();
+
 	useEffect(() => {
 		document.title = "Home | Template Web";
 	}, []);
@@ -27,18 +49,7 @@ export const HomePage = () => {
 					padding="lg"
 					radius="md"
 					withBorder
-					style={{
-						transition:
-							"transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out",
-					}}
-					onMouseEnter={(e) => {
-						e.currentTarget.style.transform = "translateY(-4px)";
-						e.currentTarget.style.boxShadow = "0 8px 16px rgba(0, 0, 0, 0.15)";
-					}}
-					onMouseLeave={(e) => {
-						e.currentTarget.style.transform = "translateY(0)";
-						e.currentTarget.style.boxShadow = "";
-					}}
+					{...cardHoverProps}
 				>
 					<Stack gap="md">
 						<div>
@@ -59,18 +70,7 @@ export const HomePage = () => {
 					padding="lg"
 					radius="md"
 					withBorder
-					style={{
-						transition:
-							"transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out",
-					}}
-					onMouseEnter={(e) => {
-						e.currentTarget.style.transform = "translateY(-4px)";
-						e.currentTarget.style.boxShadow = "0 8px 16px rgba(0, 0, 0, 0.15)";
-					}}
-					onMouseLeave={(e) => {
-						e.currentTarget.style.transform = "translateY(0)";
-						e.currentTarget.style.boxShadow = "";
-					}}
+					{...cardHoverProps}
 				>
 					<Stack gap="md">
 						<div>

@@ -89,6 +89,12 @@ export const DemoTableCard = ({
 			}}
 			tabIndex={0}
 			onFocus={() => setSelectedIndex(index)}
+			onKeyDown={(e) => {
+				if (e.key === "Enter" || e.key === " ") {
+					e.preventDefault();
+					handleRowClick(item.id, index);
+				}
+			}}
 		>
 			<Table.Td>
 				<Badge variant="light" size="sm">
