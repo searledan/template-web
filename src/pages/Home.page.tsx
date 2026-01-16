@@ -1,11 +1,4 @@
-import {
-	Button,
-	Card,
-	SimpleGrid,
-	Stack,
-	Text,
-	Title,
-} from "@mantine/core";
+import { Button, Card, SimpleGrid, Stack, Text, Title } from "@mantine/core";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
