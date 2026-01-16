@@ -35,6 +35,14 @@ Before committing changes:
 3. Update README.md if adding/changing features
 4. Update this CLAUDE.md if changing structure or patterns
 
+### Continuous Integration
+
+The template includes a GitHub Actions workflow (`.github/workflows/test.yml`) that runs automatically on:
+- Pushes to `main`, `staging`, and `development` branches
+- All pull requests
+
+The CI pipeline runs type checking, linting, tests, and build to ensure code quality.
+
 ### Template Skills
 
 This template includes **Claude Code Skills** to enforce consistent patterns when creating new code. Skills are invoked with slash commands.
@@ -107,12 +115,13 @@ When adding new tools, prefer their recommended defaults unless there's a strong
 
 ### Demo Code Guidelines
 
-The demo feature (`DemoProvider`, `DemoContext`, etc.) serves as an example of:
+The demo features (`DemoProvider`, `UserProvider`, etc.) serve as examples of:
 - React Query integration with context
 - Custom hooks pattern
 - Service layer pattern
 - Routing with React Router
 - Testing setup
+- Skeleton loading states
 
 Keep demo code:
 - **Simple**: Easy to understand and remove
@@ -192,6 +201,7 @@ This project is built using the Mantine Vite Template with React 19, TypeScript,
 - React Router for navigation
 - Vitest for testing
 - Storybook for component development
+- GitHub Actions for CI
 
 ### Development Workflow
 
@@ -413,12 +423,19 @@ import { ComponentNameSkeleton } from "@/components/ComponentName/ComponentNameS
 - **Keep it simple**: Don't need pixel-perfect matching, approximate sizes are fine
 - **Co-locate**: Always keep skeleton in the same folder as the component
 
-#### Example
+#### Examples
 
-See `src/components/DemoTableCard/` for a complete example:
+See these components for complete examples:
+
+**`src/components/DemoTableCard/`**
 - `DemoTableCard.tsx` - Main component
 - `DemoTableCardSkeleton.tsx` - Loading state
 - Used in `Demo.page.tsx` and `DemoId.page.tsx`
+
+**`src/components/UserCard/`**
+- `UserCard.tsx` - Main component
+- `UserCardSkeleton.tsx` - Loading state
+- Used in `Users.page.tsx`
 
 ### Common Tasks
 
@@ -527,8 +544,9 @@ npm run storybook:build  # Creates static Storybook in storybook-static/
 
 #### Deployment Checklist
 
+- [ ] Ensure CI pipeline passes (GitHub Actions)
 - [ ] Update environment variables for production
-- [ ] Run `npm test` to ensure all checks pass
+- [ ] Run `npm test` to ensure all checks pass locally
 - [ ] Build successfully with `npm run build`
 - [ ] Test production build with `npm run preview`
 - [ ] Update `package.json` version
@@ -564,7 +582,17 @@ Common issues and solutions are documented in README.md under the Troubleshootin
 - Prefer composition over complex props
 
 #### Git Workflow
-<!-- Document your Git workflow/branching strategy -->
+
+This project uses the following branching strategy:
+
+- **`main`** – Production-ready code
+- **`staging`** – Pre-production testing
+- **`development`** – Active development integration
+- **`feature/**`** – New features (branch from `development`)
+- **`hotfix/**`** – Urgent production fixes (branch from `main`)
+- **`release/**`** – Release preparation (branch from `development`)
+
+CI runs automatically on pushes to `main`, `staging`, and `development`, and on all pull requests.
 
 #### Additional Resources
 <!-- Link to design systems, API docs, etc. -->
@@ -600,9 +628,10 @@ npm run typecheck
 
 The template includes demo code showing best practices:
 
-- `DemoProvider.tsx` - React Query + Context pattern
-- `useDemoById.ts` - Custom hook with query
-- `Demo.page.tsx` - List view with loading/error states
+- `DemoProvider.tsx` / `UserProvider.tsx` - React Query + Context pattern
+- `useDemoById.ts` / `useUserById.ts` - Custom hooks with queries
+- `Demo.page.tsx` / `Users.page.tsx` - List views with loading/error states
+- `DemoTableCard/` / `UserCard/` - Components with skeleton loading states
 - `Welcome.test.tsx` - Component testing example
 
 You can safely remove this demo code when starting your project (see README.md for removal instructions).

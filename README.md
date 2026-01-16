@@ -18,13 +18,14 @@ This template includes the following technologies and tools:
 - **[Biome](https://biomejs.dev/)** – Fast linter and formatter (replaces ESLint & Prettier)
 - **[Vitest](https://vitest.dev/)** – Unit testing framework with [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
 - **[Storybook](https://storybook.js.org/)** – Component development and documentation
+- **[GitHub Actions](https://github.com/features/actions)** – Automated CI pipeline for testing and building
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (version 18 or higher recommended)
-- npm or yarn
+- Node.js (version specified in `.nvmrc` – currently v24.13.0)
+- npm (v11 or higher recommended)
 
 ### Installation
 
@@ -71,7 +72,9 @@ The application will be available at `http://localhost:5173`
 ```
 template-web/
 ├── .github/
-│   └── dependabot.yml      # Automated dependency updates
+│   ├── dependabot.yml      # Automated dependency updates
+│   └── workflows/
+│       └── test.yml        # CI pipeline for testing and building
 ├── .storybook/
 │   ├── main.ts            # Storybook configuration
 │   ├── preview.tsx        # Storybook preview config with Mantine provider
@@ -80,26 +83,36 @@ template-web/
 │   └── favicon.svg        # Application favicon
 ├── src/
 │   ├── components/        # Reusable React components
-│   │   ├── ColorSchemeToggle/  # Example: Theme switcher component
-│   │   └── Welcome/            # Example: Welcome component with tests
+│   │   ├── ColorSchemeToggle/  # Theme switcher component
+│   │   ├── DemoTableCard/      # Demo table card with skeleton
+│   │   ├── UserCard/           # User card with skeleton
+│   │   └── Welcome/            # Welcome component with tests
 │   ├── contexts/          # React Context definitions
-│   │   └── DemoContext.tsx     # Example context for demo feature
+│   │   ├── DemoContext.tsx     # Context for demo feature
+│   │   └── UserContext.tsx     # Context for user feature
 │   ├── hooks/             # Custom React hooks
 │   │   ├── useDemo.ts          # Hook to consume DemoContext
-│   │   └── useDemoById.ts      # React Query hook for fetching demo by ID
+│   │   ├── useDemoById.ts      # React Query hook for fetching demo by ID
+│   │   ├── useUserById.ts      # React Query hook for fetching user by ID
+│   │   └── useUsers.ts         # React Query hook for fetching users
 │   ├── mantine/           # Mantine component customisations/examples
 │   │   └── Button/             # Example button stories
 │   ├── models/            # TypeScript type definitions
-│   │   └── Demo.ts             # Example model definition
+│   │   ├── Demo.ts             # Demo model definition
+│   │   └── User.ts             # User model definition
 │   ├── pages/             # Page components (route destinations)
 │   │   ├── Home.page.tsx       # Home page
 │   │   ├── Demo.page.tsx       # Demo listing page
-│   │   └── DemoId.page.tsx     # Individual demo page
+│   │   ├── DemoId.page.tsx     # Individual demo page
+│   │   └── Users.page.tsx      # Users listing page
 │   ├── providers/         # React Context providers
-│   │   └── DemoProvider.tsx    # Example provider with React Query
+│   │   ├── DemoProvider.tsx    # Demo provider with React Query
+│   │   └── UserProvider.tsx    # User provider with React Query
 │   ├── services/          # API/data services
 │   │   ├── demoService.ts      # Demo data service (mock)
-│   │   └── demos.json          # Mock data
+│   │   ├── demos.json          # Demo mock data
+│   │   ├── userService.ts      # User data service (mock)
+│   │   └── users.json          # User mock data
 │   ├── utils/             # Utility functions and helpers
 │   │   ├── test/
 │   │   │   ├── index.ts        # Test utility exports
@@ -213,6 +226,41 @@ The `DemoProvider` demonstrates:
 - **Props interfaces** for clear component APIs
 - **CSS Modules** support for scoped styling (optional)
 
+## Continuous Integration
+
+This template includes a GitHub Actions workflow (`.github/workflows/test.yml`) that automatically runs on:
+
+- **Pushes** to `main`, `staging`, and `development` branches
+- **All pull requests**
+
+### What the CI Pipeline Does
+
+1. **Checkout** – Clones the repository
+2. **Setup Node.js** – Installs the Node.js version specified in `.nvmrc` with npm caching
+3. **Install dependencies** – Runs `npm ci` for clean, reproducible installs
+4. **Cache Vite build** – Restores/saves Vite build cache for faster builds
+5. **Type check** – Runs TypeScript type checking
+6. **Lint** – Runs Biome linting checks
+7. **Test** – Runs Vitest unit tests
+8. **Build** – Creates a production build
+9. **Upload artifacts** – Saves the build output for 7 days
+
+### Caching
+
+The workflow includes caching for:
+
+- **npm dependencies** – Cached based on `package-lock.json`
+- **Vite build cache** – Cached for faster subsequent builds
+
+### Customising the Workflow
+
+To modify the CI pipeline, edit `.github/workflows/test.yml`. Common customisations:
+
+- Add additional branches to the push trigger
+- Add deployment steps after the build
+- Include Storybook build in the pipeline
+- Add code coverage reporting
+
 ## Customising This Template
 
 ### Quick Start Customisation
@@ -227,11 +275,12 @@ The `DemoProvider` demonstrates:
    - Add custom colours, fonts, spacing, etc.
 
 3. **Remove demo code** (optional):
-   - Delete `src/providers/DemoProvider.tsx`
-   - Delete `src/contexts/DemoContext.tsx`
-   - Delete `src/hooks/useDemo*.ts`
-   - Delete `src/services/demo*`
-   - Delete `src/pages/Demo*.page.tsx`
+   - Delete `src/providers/DemoProvider.tsx` and `src/providers/UserProvider.tsx`
+   - Delete `src/contexts/DemoContext.tsx` and `src/contexts/UserContext.tsx`
+   - Delete `src/hooks/useDemo*.ts` and `src/hooks/useUser*.ts`
+   - Delete `src/services/demo*` and `src/services/user*`
+   - Delete `src/pages/Demo*.page.tsx` and `src/pages/Users.page.tsx`
+   - Delete `src/components/DemoTableCard/` and `src/components/UserCard/`
    - Update `src/Router.tsx` to remove demo routes
 
 4. **Add your features**:
