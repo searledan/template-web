@@ -1,6 +1,6 @@
 import { Button, Card, SimpleGrid, Stack, Text, Title } from "@mantine/core";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 const useCardHoverEffect = () => {
 	const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
