@@ -202,6 +202,8 @@ This project is built using the Mantine Vite Template with React 19, TypeScript,
 - Vitest for testing
 - Storybook for component development
 - GitHub Actions for CI
+- Docker for containerised deployment
+- Dev Containers for consistent development environments
 
 ### Development Workflow
 
@@ -615,7 +617,10 @@ When requesting changes from Claude Code:
 npm test
 
 # Watch tests during development
-npm run vitest:watch
+npm run vitest
+
+# Run unit tests once
+npm run vitest:unit
 
 # Format all files
 npm run lint:fix
