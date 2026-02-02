@@ -1,0 +1,96 @@
+{
+	"$schema": "https://containers.dev/implementors/json_reference/",
+	"name": "Template Web Development",
+
+	// Use TypeScript Node.js 24 on Debian Bookworm for Playwright compatibility
+	"image": "mcr.microsoft.com/devcontainers/typescript-node:24-bookworm",
+
+	// Features to add
+	"features": {
+		// GitHub CLI for PR workflows
+		"ghcr.io/devcontainers/features/github-cli:1": {},
+		// Docker-in-Docker for building/testing containers
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
+	},
+
+	// Forward ports for Vite dev server and Storybook
+	"forwardPorts": [5173, 6006, 8080],
+	"portsAttributes": {
+		"5173": {
+			"label": "Vite Dev Server",
+			"onAutoForward": "notify"
+		},
+		"6006": {
+			"label": "Storybook",
+			"onAutoForward": "notify"
+		},
+		"8080": {
+			"label": "Production Preview",
+			"onAutoForward": "notify"
+		}
+	},
+
+	// Container environment
+	"containerEnv": {
+		"NODE_ENV": "development"
+	},
+
+	// Lifecycle hooks (split for Codespaces prebuild optimisation)
+	"onCreateCommand": "npm ci",
+	"postCreateCommand": "npx playwright install --with-deps chromium",
+
+	// Allow editor to connect once dependencies are installed
+	"waitFor": "onCreateCommand",
+
+	// VS Code customisations
+	"customizations": {
+		"vscode": {
+			"settings": {
+				// Use Biome for formatting (not Prettier)
+				"editor.defaultFormatter": "biomejs.biome",
+				"editor.formatOnSave": true,
+				"editor.codeActionsOnSave": {
+					"quickfix.biome": "explicit",
+					"source.organizeImports.biome": "explicit"
+				},
+				// TypeScript settings
+				"typescript.preferences.importModuleSpecifier": "non-relative",
+				"typescript.updateImportsOnFileMove.enabled": "always",
+				// File associations
+				"files.associations": {
+					"*.css": "css"
+				},
+				// Explorer settings
+				"explorer.fileNesting.enabled": true,
+				"explorer.fileNesting.patterns": {
+					"*.tsx": "${capture}.test.tsx, ${capture}.stories.tsx, ${capture}.module.css, ${capture}Skeleton.tsx",
+					"*.ts": "${capture}.test.ts",
+					"package.json": "package-lock.json, .nvmrc, .npmrc, tsconfig*.json, vite.config.*, vitest.*, biome.json, postcss.config.*"
+				}
+			},
+			"extensions": [
+				// Biome - Linting and formatting (replaces ESLint + Prettier)
+				"biomejs.biome",
+				// React development
+				"dsznajder.es7-react-js-snippets",
+				// Testing
+				"vitest.explorer",
+				"ms-playwright.playwright",
+				// Docker
+				"ms-azuretools.vscode-docker",
+				// Git
+				"eamodio.gitlens",
+				"github.vscode-pull-request-github",
+				// CSS
+				"csstools.postcss",
+				// General productivity
+				"streetsidesoftware.code-spell-checker",
+				"usernamehw.errorlens",
+				"gruntfuggly.todo-tree"
+			]
+		}
+	},
+
+	// Container user
+	"remoteUser": "node"
+}

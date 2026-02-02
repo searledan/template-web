@@ -44,6 +44,117 @@ This template includes the following technologies and tools:
 
 The application will be available at `http://localhost:5173`
 
+## Docker
+
+This project includes Docker support for both local development and production deployment (including Azure).
+
+### Production Build
+
+Build and run the production container:
+
+```bash
+# Build the image
+docker build -t template-web .
+
+# Run the container
+docker run -p 8080:8080 template-web
+```
+
+The application will be available at `http://localhost:8080`
+
+### Using Docker Compose
+
+For convenience, use Docker Compose:
+
+```bash
+# Build and run production image
+docker compose up --build
+
+# Run in background
+docker compose up -d
+
+# Stop containers
+docker compose down
+```
+
+### Development with Docker
+
+Run the development server with hot reload:
+
+```bash
+docker compose --profile dev up dev
+```
+
+### Azure Deployment
+
+The production Dockerfile is optimised for Azure App Service:
+
+- Uses port 8080 (Azure's default)
+- Includes health checks
+- Runs as non-root user for security
+- Multi-stage build for minimal image size
+
+To deploy to Azure Container Apps or App Service:
+
+```bash
+# Build and tag for Azure Container Registry
+docker build -t your-acr.azurecr.io/template-web:latest .
+
+# Push to registry
+docker push your-acr.azurecr.io/template-web:latest
+```
+
+## Dev Container
+
+This project includes a [dev container](https://containers.dev/) configuration for consistent development environments.
+
+### Using with VS Code
+
+1. Install the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+2. Open the project in VS Code
+3. When prompted, click "Reopen in Container" or use the command palette: `Dev Containers: Reopen in Container`
+
+### Using with GitHub Codespaces
+
+This repository works out of the box with GitHub Codespaces. Simply click "Code" > "Codespaces" > "Create codespace on main".
+
+### What's Included
+
+The dev container provides:
+
+- **TypeScript Node.js 24** on Debian Bookworm (includes `tsc` on PATH)
+- **Docker-in-Docker** for building/testing containers
+- **GitHub CLI** for PR workflows
+- **Playwright** with Chromium for E2E testing
+- **NODE_ENV=development** set automatically
+
+**Optimised for GitHub Codespaces:**
+
+The configuration splits lifecycle hooks for faster Codespaces startup:
+- `onCreateCommand` runs `npm ci` during prebuilds
+- `postCreateCommand` installs Playwright browsers after user connects
+- `waitFor: onCreateCommand` allows editor connection once dependencies are ready
+
+**Pre-configured VS Code Extensions:**
+
+- Biome (linting/formatting)
+- React Snippets (ES7+ patterns)
+- Vitest Explorer (unit testing)
+- Playwright (E2E testing)
+- Docker (container management)
+- GitLens (Git history)
+- GitHub Pull Requests
+- PostCSS (CSS tooling)
+- Code Spell Checker
+- Error Lens (inline errors)
+- Todo Tree
+
+**Port Forwarding:**
+
+- 5173 - Vite dev server
+- 6006 - Storybook
+- 8080 - Production preview
+
 ## NPM Scripts
 
 ### Development Scripts
@@ -57,9 +168,9 @@ The application will be available at `http://localhost:5173`
 - `npm run typecheck` – Check TypeScript types
 - `npm run lint` – Run Biome linter checks
 - `npm run lint:fix` – Run Biome linter and auto-fix issues
-- `npm run vitest` – Run all tests once
-- `npm run vitest:watch` – Run tests in watch mode
-- `npm run vitest:storybook` – Run Storybook component tests
+- `npm run vitest` – Run tests in watch mode (runs once in CI)
+- `npm run vitest:unit` – Run unit tests once
+- `npm run vitest:storybook` – Run Storybook component tests once
 - `npm run test` – Run full test suite (typecheck + lint + vitest + build)
 
 ### Storybook Scripts
@@ -71,6 +182,8 @@ The application will be available at `http://localhost:5173`
 
 ```
 template-web/
+├── .devcontainer/
+│   └── devcontainer.json   # Dev container configuration
 ├── .github/
 │   ├── dependabot.yml      # Automated dependency updates
 │   └── workflows/
@@ -119,13 +232,18 @@ template-web/
 │   │   │   └── render.tsx      # Custom render for testing with providers
 │   │   └── theme.ts            # Mantine theme configuration
 │   ├── App.tsx            # Main application component with providers
+│   ├── Layout.css         # Layout component styles
 │   ├── Layout.tsx         # Layout component for routing
 │   ├── Router.tsx         # React Router configuration
 │   ├── main.tsx           # Application entry point
 │   └── vite-env.d.ts      # Vite environment type definitions
+├── .dockerignore          # Docker ignore rules
 ├── .editorconfig          # Cross-platform editor configuration
 ├── .gitignore             # Git ignore rules
 ├── .nvmrc                 # Node version specification
+├── docker-compose.yml     # Docker Compose configuration
+├── Dockerfile             # Production Docker image
+├── Dockerfile.dev         # Development Docker image
 ├── biome.json             # Biome linter and formatter configuration
 ├── index.html             # HTML entry point
 ├── package.json           # Project dependencies and scripts
