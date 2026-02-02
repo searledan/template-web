@@ -44,8 +44,9 @@ FROM node:24-alpine AS production
 
 WORKDIR /app
 
-# Install serve globally for serving static files
-RUN npm install -g serve@latest
+# Install curl for health checks and serve for static file serving
+RUN apk add --no-cache curl && \
+    npm install -g serve@14.2.4
 
 # Create non-root user for security
 RUN addgroup -g 1001 -S nodejs && \
@@ -65,7 +66,7 @@ EXPOSE 8080
 
 # Health check for container orchestration
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD wget --no-verbose --tries=1 --spider http://localhost:8080/ || exit 1
+    CMD curl -f http://localhost:8080/ || exit 1
 
 # Start the server
 # -s: Single-page application mode (rewrites to index.html)
