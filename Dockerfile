@@ -44,9 +44,18 @@ FROM node:24-alpine AS production
 
 WORKDIR /app
 
-# Install curl for health checks and serve for static file serving
-RUN apk add --no-cache curl && \
-    npm install -g serve@14.2.4
+# Install curl for health checks
+RUN apk add --no-cache curl
+
+# Copy package files for serve installation with lockfile context
+COPY package.json package-lock.json ./
+
+# Install serve with pinned version for reproducibility
+# Having lockfile present provides additional reproducibility for transitive dependencies
+RUN npm install --global serve@14.2.4
+
+# Remove package files (no longer needed)
+RUN rm package.json package-lock.json
 
 # Create non-root user for security
 RUN addgroup -g 1001 -S nodejs && \
@@ -66,7 +75,7 @@ EXPOSE 8080
 
 # Health check for container orchestration
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8080/ || exit 1
+    CMD curl -fsS -o /dev/null http://localhost:8080/ || exit 1
 
 # Start the server
 # -s: Single-page application mode (rewrites to index.html)
