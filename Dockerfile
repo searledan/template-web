@@ -47,16 +47,8 @@ WORKDIR /app
 # Install curl for health checks
 RUN apk add --no-cache curl
 
-# Copy package files for serve installation with lockfile context
-COPY package.json package-lock.json ./
-
-# Install serve with pinned version for reproducibility
-# Having lockfile present provides additional reproducibility for transitive dependencies
+# Install serve globally with a pinned version for reproducibility
 RUN npm install --global serve@14.2.4
-
-# Remove package files (no longer needed)
-RUN rm package.json package-lock.json
-
 # Create non-root user for security
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S appuser -u 1001 -G nodejs
