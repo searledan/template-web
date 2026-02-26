@@ -49,6 +49,7 @@ RUN apk add --no-cache curl
 
 # Install serve globally with a pinned version for reproducibility
 RUN npm install --global serve@14.2.4
+
 # Create non-root user for security
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S appuser -u 1001 -G nodejs

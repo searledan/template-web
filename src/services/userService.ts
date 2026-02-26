@@ -4,65 +4,43 @@ import mockUsers from "./users.json";
 const userData: User[] = [...mockUsers];
 
 export const getAllUsers = async (): Promise<User[]> => {
-	try {
-		await new Promise((resolve) => setTimeout(resolve, 500));
+	await new Promise((resolve) => setTimeout(resolve, 500));
 
-		const data: User[] = [...userData];
+	const data: User[] = [...userData];
 
-		return data;
-	} catch (error: unknown) {
-		console.error("Error fetching users:", error);
-
-		return [];
-	}
+	return data;
 };
 
 export const getUserById = async (id: number): Promise<User | null> => {
-	try {
-		await new Promise((resolve) => setTimeout(resolve, 300));
+	await new Promise((resolve) => setTimeout(resolve, 300));
 
-		const user = userData.find((user) => user.id === id);
+	const user = userData.find((user) => user.id === id);
 
-		return user ?? null;
-	} catch (error: unknown) {
-		console.error("Error fetching user:", error);
-
-		return null;
-	}
+	return user ?? null;
 };
 
-export const updateUser = async (id: number, user: User): Promise<boolean> => {
-	try {
-		await new Promise((resolve) => setTimeout(resolve, 300));
+export const updateUser = async (id: number, user: User): Promise<User> => {
+	await new Promise((resolve) => setTimeout(resolve, 300));
 
-		const index = userData.findIndex((user) => user.id === id);
+	const index = userData.findIndex((user) => user.id === id);
 
-		if (index === -1) throw new Error("User not found");
+	if (index === -1) throw new Error("User not found");
 
-		userData[index] = { ...userData[index], ...user };
+	const existing = userData[index];
+	if (!existing) throw new Error("User not found");
 
-		return true;
-	} catch (error: unknown) {
-		console.error("Error updating user:", error);
+	const updated = { ...existing, ...user };
+	userData[index] = updated;
 
-		return false;
-	}
+	return updated;
 };
 
-export const deleteUser = async (id: number): Promise<boolean> => {
-	try {
-		await new Promise((resolve) => setTimeout(resolve, 300));
+export const deleteUser = async (id: number): Promise<void> => {
+	await new Promise((resolve) => setTimeout(resolve, 300));
 
-		const index = userData.findIndex((user) => user.id === id);
+	const index = userData.findIndex((user) => user.id === id);
 
-		if (index === -1) throw new Error("User not found");
+	if (index === -1) throw new Error("User not found");
 
-		userData.splice(index, 1);
-
-		return true;
-	} catch (error: unknown) {
-		console.error("Error deleting user:", error);
-
-		return false;
-	}
+	userData.splice(index, 1);
 };

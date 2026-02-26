@@ -1,4 +1,4 @@
-name: Test
+name: CI
 
 on:
   push:
@@ -12,8 +12,8 @@ permissions:
   contents: read
 
 jobs:
-  test:
-    name: Test
+  ci:
+    name: CI
     runs-on: ubuntu-latest
 
     steps:
@@ -45,8 +45,11 @@ jobs:
       - name: Run linting
         run: npm run lint
 
-      - name: Run unit tests
-        run: npm run vitest:unit
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium --with-deps
+
+      - name: Run tests
+        run: npm run vitest
 
       - name: Build
         run: npm run build

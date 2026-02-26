@@ -17,37 +17,36 @@ export const DemoProvider = ({ children }: { children: ReactNode }) => {
 		queryKey: queryKey,
 		queryFn: async () => await getAllDemos(),
 		placeholderData: keepPreviousData,
-		staleTime: 30000,
 	});
 
 	const updateMutation = useMutation({
 		mutationFn: async ({ id, demo }: { id: number; demo: Demo }) =>
 			updateDemo(id, demo),
 		onSuccess: () => {
-			console.log("Demo updated successfully"); // TODO: remove this, this is just for testing
+			// TODO: Show success notification
 		},
 		onSettled: () => {
 			void queryClient.invalidateQueries({ queryKey: queryKey });
 		},
 		onError: () => {
-			console.error("Error updating demo"); // TODO: remove this, handled by service
+			// TODO: Show error notification
 		},
 	});
 
 	const deleteMutation = useMutation({
 		mutationFn: async ({ id }: { id: number }) => deleteDemo(id),
 		onSuccess: () => {
-			console.log("Demo deleted successfully"); // TODO: remove this, this is just for testing
+			// TODO: Show success notification
 		},
 		onSettled: () => {
 			void queryClient.invalidateQueries({ queryKey: queryKey });
 		},
 		onError: () => {
-			console.error("Error deleting demo"); // TODO: remove this, handled by service
+			// TODO: Show error notification
 		},
 	});
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: This is a React Query anti-pattern which means including mutation objects in useMemo dependencies causes infinite re-renders
+	// biome-ignore lint/correctness/useExhaustiveDependencies: Mutations are stable references and shouldn't be in dependencies
 	const value = useMemo(
 		() => ({
 			demos: data,

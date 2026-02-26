@@ -106,7 +106,7 @@ export const DemoTableCard = ({
 			</Table.Td>
 			<Table.Td>
 				<Text c="dimmed" size="sm">
-					{new Date(item.date).toLocaleDateString("en-GB", {
+					{new Date(`${item.date}T00:00:00`).toLocaleDateString("en-GB", {
 						day: "numeric",
 						month: "short",
 						year: "numeric",

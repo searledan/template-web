@@ -47,10 +47,37 @@ describe("UserCard component", () => {
 			/>,
 		);
 
-		const card = screen.getByText("John Doe").closest("div")
-			?.parentElement?.parentElement;
-		card?.click();
+		const card = screen.getByRole("button");
+		card.click();
 
 		expect(mockOnClick).toHaveBeenCalledTimes(1);
+	});
+
+	it("activates onClick via Enter and Space keys", async () => {
+		const { userEvent } = await import("@testing-library/user-event");
+		const user = userEvent.setup();
+		const mockOnClick = vi.fn();
+		render(
+			<UserCard
+				name="John Doe"
+				email="john@example.com"
+				onClick={mockOnClick}
+			/>,
+		);
+
+		const card = screen.getByRole("button");
+		card.focus();
+
+		await user.keyboard("{Enter}");
+		expect(mockOnClick).toHaveBeenCalledTimes(1);
+
+		await user.keyboard(" ");
+		expect(mockOnClick).toHaveBeenCalledTimes(2);
+	});
+
+	it("does not have button role when onClick is not provided", () => {
+		render(<UserCard name="John Doe" email="john@example.com" />);
+
+		expect(screen.queryByRole("button")).not.toBeInTheDocument();
 	});
 });

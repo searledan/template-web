@@ -17,15 +17,43 @@ import { useDemoById } from "@/hooks/useDemoById";
 
 export const DemoIdPage = () => {
 	const { id } = useParams();
-	const {
-		data: demo,
-		isPending,
-		isError,
-	} = useDemoById(parseInt(id ? id : "0", 10));
+	const numericId = Number(id);
+	const { data: demo, isPending, isError } = useDemoById(numericId);
 
 	useEffect(() => {
 		document.title = `Demo ${id} | Template Web`;
 	}, [id]);
+
+	if (!id || Number.isNaN(numericId))
+		return (
+			<Stack gap="lg" py="lg">
+				<Breadcrumbs>
+					<Anchor component={Link} to="/demo">
+						Demos
+					</Anchor>
+					<Text>Demo {id}</Text>
+				</Breadcrumbs>
+				<div>
+					<Title order={1}>Demo {id}</Title>
+					<Text c="dimmed" mt="xs">
+						Viewing demo details
+					</Text>
+				</div>
+				<Center py="xl">
+					<Stack align="center" gap="md">
+						<ThemeIcon size={60} radius="xl" variant="light" color="gray">
+							<IconTable size={30} />
+						</ThemeIcon>
+						<Text size="lg" fw={500}>
+							Demo not found
+						</Text>
+						<Text size="sm" c="dimmed">
+							This demo doesn't exist or has been removed
+						</Text>
+					</Stack>
+				</Center>
+			</Stack>
+		);
 
 	if (isPending)
 		return (

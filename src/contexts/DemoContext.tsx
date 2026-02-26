@@ -6,8 +6,8 @@ interface DemoContextType {
 	demos: Demo[] | undefined;
 	isPending: boolean;
 	isError: boolean;
-	updateMutation: UseMutationResult<boolean, Error, { id: number; demo: Demo }>;
-	deleteMutation: UseMutationResult<boolean, Error, { id: number }>;
+	updateMutation: UseMutationResult<Demo, Error, { id: number; demo: Demo }>;
+	deleteMutation: UseMutationResult<void, Error, { id: number }>;
 }
 
 export const DemoContext = createContext<DemoContextType | undefined>(

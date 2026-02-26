@@ -2,7 +2,7 @@
 	"name": "template-web",
 	"private": true,
 	"type": "module",
-	"version": "2.0.0",
+	"version": "2.1.0",
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc -b && vite build",
@@ -10,12 +10,16 @@
 		"typecheck": "tsc --noEmit",
 		"lint": "biome check",
 		"lint:fix": "biome check --write",
-		"vitest": "vitest",
+		"vitest": "vitest run",
 		"vitest:unit": "vitest run --project=unit",
 		"vitest:storybook": "vitest run --project=storybook",
+		"vitest:watch": "vitest",
 		"test": "npm run typecheck && npm run lint && npm run vitest && npm run build",
 		"storybook": "storybook dev -p 6006",
-		"storybook:build": "storybook build"
+		"storybook:build": "storybook build",
+		"version:patch": "npm version patch --no-git-tag-version",
+		"version:minor": "npm version minor --no-git-tag-version",
+		"version:major": "npm version major --no-git-tag-version"
 	},
 	"dependencies": {
 		"@mantine/core": "^8.3.14",
@@ -25,6 +29,7 @@
 		"@tanstack/react-query-devtools": "^5.91.3",
 		"react": "^19.2.4",
 		"react-dom": "^19.2.4",
+		"react-router": "^7.13.1",
 		"react-router-dom": "^7.13.0"
 	},
 	"devDependencies": {

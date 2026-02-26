@@ -49,7 +49,7 @@ export const UsersPage = () => {
 		(user) =>
 			user.name.toLowerCase().includes(lowerSearchQuery) ||
 			user.email.toLowerCase().includes(lowerSearchQuery) ||
-			user.role?.toLowerCase().includes(lowerSearchQuery),
+			(user.role?.toLowerCase().includes(lowerSearchQuery) ?? false),
 	);
 
 	// Handle loading state
