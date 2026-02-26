@@ -1,4 +1,5 @@
 import { Button, Card, SimpleGrid, Stack, Text, Title } from "@mantine/core";
+import type React from "react";
 import { useEffect } from "react";
 import { Link } from "react-router";
 

@@ -12,12 +12,12 @@ import { getDemoById } from "@/services/demoService";
  * For filtering demos already loaded in context, use:
  * `const { demos } = useDemo(); const demo = demos?.find(d => d.id === id);`
  *
- * @param id - The demo ID to fetch (string or number)
+ * @param id - The demo ID to fetch
  * @returns React Query result with demo data, loading state, and error state
  *
  * @example
  * ```tsx
- * const DemoDetailPage = ({ demoId }: { demoId: string }) => {
+ * const DemoDetailPage = ({ demoId }: { demoId: number }) => {
  *   const { data: demo, isPending, isError } = useDemoById(demoId);
  *
  *   if (isPending) return <Spinner />;
@@ -32,6 +32,5 @@ export const useDemoById = (id: number) => {
 		queryKey: ["demo", id],
 		queryFn: () => getDemoById(id),
 		enabled: !!id,
-		staleTime: 30000,
 	});
 };

@@ -6,8 +6,8 @@ interface UserContextType {
 	users: User[] | undefined;
 	isPending: boolean;
 	isError: boolean;
-	updateMutation: UseMutationResult<boolean, Error, { id: number; user: User }>;
-	deleteMutation: UseMutationResult<boolean, Error, { id: number }>;
+	updateMutation: UseMutationResult<User, Error, { id: number; user: User }>;
+	deleteMutation: UseMutationResult<void, Error, { id: number }>;
 }
 
 export const UserContext = createContext<UserContextType | undefined>(

@@ -10,7 +10,9 @@
 		// GitHub CLI for PR workflows
 		"ghcr.io/devcontainers/features/github-cli:1": {},
 		// Docker-in-Docker for building/testing containers
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
+		// Claude Code CLI
+		"ghcr.io/anthropics/devcontainer-features/claude-code:1": {}
 	},
 
 	// Forward ports for Vite dev server and Storybook
@@ -83,6 +85,8 @@
 				"github.vscode-pull-request-github",
 				// CSS
 				"csstools.postcss",
+				// AI assistant
+				"anthropic.claude-code",
 				// General productivity
 				"streetsidesoftware.code-spell-checker",
 				"usernamehw.errorlens",

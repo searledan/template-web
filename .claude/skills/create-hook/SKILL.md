@@ -59,7 +59,6 @@ export const useResource = (
 		queryKey: id ? ["resource", id] : ["resources"],
 		queryFn: () => (id ? fetchResource(id) : fetchAllResources()),
 		enabled: !!id, // Only run if id is provided
-		staleTime: 30000, // 30 seconds
 	});
 };
 ```
@@ -410,8 +409,7 @@ export const useLocalStorage = <T,>(
 		try {
 			const item = window.localStorage.getItem(key);
 			return item ? JSON.parse(item) : initialValue;
-		} catch (error) {
-			console.error(error);
+		} catch {
 			return initialValue;
 		}
 	});
@@ -420,8 +418,8 @@ export const useLocalStorage = <T,>(
 		try {
 			setStoredValue(value);
 			window.localStorage.setItem(key, JSON.stringify(value));
-		} catch (error) {
-			console.error(error);
+		} catch {
+			// Storage may be unavailable (e.g. private browsing)
 		}
 	};
 

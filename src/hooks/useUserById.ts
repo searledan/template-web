@@ -12,12 +12,12 @@ import { getUserById } from "@/services/userService";
  * For filtering users already loaded in context, use:
  * `const { users } = useUsers(); const user = users?.find(u => u.id === id);`
  *
- * @param id - The user ID to fetch (string or number)
+ * @param id - The user ID to fetch
  * @returns React Query result with user data, loading state, and error state
  *
  * @example
  * ```tsx
- * const UserDetailPage = ({ userId }: { userId: string }) => {
+ * const UserDetailPage = ({ userId }: { userId: number }) => {
  *   const { data: user, isPending, isError } = useUserById(userId);
  *
  *   if (isPending) return <Spinner />;
@@ -32,6 +32,5 @@ export const useUserById = (id: number) => {
 		queryKey: ["user", id],
 		queryFn: () => getUserById(id),
 		enabled: !!id,
-		staleTime: 30000,
 	});
 };

@@ -1,0 +1,44 @@
+{
+	"permissions": {
+		"allow": [
+			"Bash(npm *)",
+			"Bash(docker *)",
+			"Bash(git *)",
+			"Bash(gh *)",
+			"Bash(* --version)",
+			"Bash(* --help *)",
+			"Skill(create-component)",
+			"Skill(pr-review-toolkit:review-pr)",
+			"mcp__plugin_playwright_playwright",
+			"mcp__plugin_context7_context7",
+			"WebSearch",
+			"WebFetch(domain:containers.dev)",
+			"WebFetch(domain:visualstudio.com)",
+			"WebFetch(domain:github.com)"
+		]
+	},
+	"hooks": {
+		"PostToolUse": [
+			{
+				"matcher": "Edit|Write",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "npx biome check --write --changed --no-errors-on-unmatched $CLAUDE_FILE_PATHS"
+					}
+				]
+			}
+		],
+		"PreToolUse": [
+			{
+				"matcher": "Edit|Write",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "if echo $CLAUDE_FILE_PATHS | sed 's/\\.env\\.example//g' | grep -q '\\.env'; then echo 'BLOCKED: Do not edit .env files — use .env.example instead'; exit 1; fi"
+					}
+				]
+			}
+		]
+	}
+}

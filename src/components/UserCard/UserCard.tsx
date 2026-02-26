@@ -41,6 +41,18 @@ export const UserCard = ({
 			padding="lg"
 			radius="md"
 			withBorder
+			role={onClick ? "button" : undefined}
+			tabIndex={onClick ? 0 : undefined}
+			onKeyDown={
+				onClick
+					? (e) => {
+							if (e.key === "Enter" || e.key === " ") {
+								e.preventDefault();
+								onClick();
+							}
+						}
+					: undefined
+			}
 			style={{
 				cursor: onClick ? "pointer" : "default",
 				transition: "transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out",

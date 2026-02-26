@@ -44,7 +44,7 @@ export const Small: Story = {
 	render: (args) => <Button {...args}>Button</Button>,
 };
 
-export const Meduim: Story = {
+export const Medium: Story = {
 	args: {
 		size: "md",
 	},

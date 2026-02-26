@@ -132,3 +132,9 @@ dist
 .DS_Store
 *storybook.log
 storybook-static
+
+# Playwright MCP screenshots
+.playwright-mcp/
+
+# Claude Code local settings
+.claude/settings.local.json

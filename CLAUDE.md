@@ -71,6 +71,19 @@ This template includes **Claude Code Skills** to enforce consistent patterns whe
 - Creates tests for complex hooks
 - Location: `.claude/skills/create-hook/SKILL.md`
 
+**`/create-service`** - Scaffold a service + React Query hook pair
+- Creates model type, service file, and hook file(s)
+- Follows established error handling patterns (no try/catch)
+- Includes test file for hooks
+- Location: `.claude/skills/create-service/SKILL.md`
+
+**`/review-pr`** - Address PR review comments
+- Reads unresolved review threads via `gh` CLI
+- Categorises threads as code changes or reply-only
+- Commits fixes, then replies with clickable commit links
+- Resolves all threads after replying
+- Location: `.claude/skills/review-pr/SKILL.md`
+
 #### Using Skills
 
 When maintaining this template:
@@ -84,6 +97,9 @@ When maintaining this template:
 
 # Create a custom hook
 /create-hook
+
+# Scaffold a service + hook pair
+/create-service
 ```
 
 The skills will ask clarifying questions and ensure:
@@ -129,45 +145,6 @@ Keep demo code:
 - **Tested**: Includes test examples
 - **Documented**: Has JSDoc comments where helpful
 
-### File Organisation
-
-```
-src/
-├── components/     # Reusable UI components
-├── contexts/       # React Context definitions
-├── hooks/          # Custom React hooks
-├── models/         # TypeScript types/interfaces
-├── pages/          # Route destination components
-├── providers/      # Context providers with logic
-├── services/       # API/data layer
-└── utils/          # Utility functions, test helpers, theme
-```
-
-Maintain this structure in examples but don't enforce it in documentation (users may prefer feature-based organisation).
-
-### Import Conventions
-
-**DO NOT use barrel exports (index.ts files).** Import directly from component files.
-
-**Why avoid barrel exports:**
-- **Better tree-shaking**: Direct imports allow bundlers to eliminate unused code more effectively
-- **Faster builds**: Barrel files slow down compilation in larger projects
-- **Clearer imports**: Explicit file paths make it obvious what you're importing
-- **Avoid circular dependencies**: Barrel files can introduce circular dependency issues
-- **Modern tooling**: IDEs autocomplete full paths perfectly
-
-**Correct import pattern:**
-```typescript
-// ✅ Good - Direct import from component file
-import { DemoTableCard } from "@/components/DemoTableCard/DemoTableCard";
-import { useDemo } from "@/hooks/useDemo";
-
-// ❌ Avoid - Barrel export through index.ts
-import { DemoTableCard } from "@/components/DemoTableCard";
-```
-
-This is a modern best practice (2024-2025) that improves build performance and code maintainability.
-
 ### Dependencies Management
 
 - **Keep current**: Template should use latest stable versions
@@ -195,23 +172,28 @@ All example code should include tests:
 This project is built using the Mantine Vite Template with React 19, TypeScript, and modern tooling.
 
 **Key Technologies:**
-- React 19 with TypeScript
+- React 19 with TypeScript (strict mode)
 - Mantine UI for components
-- React Query for data fetching
+- React Query for data fetching and caching
 - React Router for navigation
-- Vitest for testing
+- Vitest for testing with React Testing Library
 - Storybook for component development
+- Biome for linting and formatting
 - GitHub Actions for CI
-- Docker for containerised deployment
-- Dev Containers for consistent development environments
 
 ### Development Workflow
+
+#### Prerequisites
+
+- **Node.js**: Version specified in `.nvmrc` — use `nvm use` to switch
+- **GitHub CLI**: Required for PR review workflows — installed automatically in the devcontainer
 
 #### Starting Development
 
 ```bash
-npm run dev          # Start dev server at localhost:5173
-npm run storybook    # Start Storybook at localhost:6006
+npm run dev              # Start dev server at localhost:5173
+npm run storybook        # Start Storybook at localhost:6006
+npm run storybook:build  # Build static Storybook
 ```
 
 #### Code Quality Checks
@@ -219,132 +201,193 @@ npm run storybook    # Start Storybook at localhost:6006
 Before committing changes:
 
 ```bash
-npm run typecheck    # Check TypeScript types
-npm run lint         # Check code quality with Biome
-npm run vitest       # Run tests
-npm test             # Run full test suite
+npm run test         # Full suite: typecheck + lint + vitest + build
 ```
 
-Auto-fix formatting issues:
+Or individually:
+
 ```bash
-npm run lint:fix
+npm run typecheck    # TypeScript type checking
+npm run lint         # Biome linting
+npm run lint:fix     # Auto-fix formatting issues
+npm run vitest       # Run tests
 ```
 
-#### Creating New Features
+#### Version Bumping
 
-When adding new features:
+Always bump the version when making changes:
 
-1. **Create page components** in `src/pages/`
-2. **Add reusable components** in `src/components/`
-3. **Define types** in `src/models/`
-4. **Add data services** in `src/services/`
-5. **Update routing** in `src/Router.tsx`
-6. **Write tests** alongside your code
-7. **Add stories** for visual components
+```bash
+npm run version:patch   # Bug fixes (1.0.0 → 1.0.1)
+npm run version:minor   # New features (1.0.0 → 1.1.0)
+npm run version:major   # Breaking changes (1.0.0 → 2.0.0)
+```
 
-#### File Naming Conventions
+These update `package.json` without creating a git tag. Include the version bump in the relevant commit.
+
+### File Organisation
+
+```
+src/
+├── components/     # Reusable UI components
+├── contexts/       # React Context definitions
+├── hooks/          # Custom React hooks
+├── mantine/        # Mantine component customisations
+├── models/         # TypeScript types/interfaces
+├── pages/          # Route destination components
+├── providers/      # Context providers with logic
+├── services/       # API/data layer
+└── utils/          # Utility functions, test helpers, theme
+```
+
+### File Naming Conventions
 
 - **Components**: `ComponentName.tsx` (PascalCase)
 - **Pages**: `PageName.page.tsx`
 - **Tests**: `ComponentName.test.tsx`
 - **Stories**: `ComponentName.stories.tsx`
 - **Styles**: `ComponentName.module.css` (if using CSS Modules)
-- **Utilities**: `utilityName.ts` (camelCase)
+- **Hooks**: `use[Name].ts` (camelCase with `use` prefix)
+- **Services**: `modelNameService.ts` (camelCase with `Service` suffix)
+- **Models**: `ModelName.ts` (PascalCase)
 
-#### Import Patterns
+### Import Conventions
 
-**Always import directly from the component file** - do not use barrel exports (index.ts files).
+#### Path aliases
+
+Use `@/` for all cross-module imports. Relative paths (`./`) are only for same-directory files (tests, stories, skeletons, CSS modules) and out-of-`src/` imports (e.g. `.storybook/`).
 
 ```typescript
-// ✅ Correct - Direct imports
+// Correct — @/ for cross-module
 import { DemoTableCard } from "@/components/DemoTableCard/DemoTableCard";
 import { useDemo } from "@/hooks/useDemo";
-import { fetchDemos } from "@/services/demoService";
 
-// ❌ Incorrect - Barrel exports through index.ts
+// Correct — relative for same-directory
+import { DemoTableCard } from "./DemoTableCard";
+import styles from "./DemoTableCard.module.css";
+
+// Incorrect — barrel exports
 import { DemoTableCard } from "@/components/DemoTableCard";
+
+// Incorrect — relative for cross-module
+import { useDemo } from "../../hooks/useDemo";
 ```
 
-**Benefits:**
-- Better tree-shaking and smaller bundles
-- Faster build times
-- No circular dependency issues
-- Clear and explicit import paths
+#### Import ordering
+
+Group imports in this order, separated by blank lines if needed:
+
+1. External libraries (`@mantine/core`, `react`, `@tanstack/react-query`)
+2. Internal `@/` imports (components, hooks, contexts, services, models)
+3. Relative imports (`./Component`, `./styles.module.css`)
+
+#### Type imports
+
+Use `import type` for type-only imports. Use inline `{ type X }` only when mixing type and value imports from the same module.
+
+```typescript
+// Correct — separate type import
+import type { Demo } from "@/models/Demo";
+
+// Correct — inline when mixing type and value
+import { type ReactNode, useMemo } from "react";
+
+// Incorrect — value import for types
+import { Demo } from "@/models/Demo";
+```
+
+#### No barrel exports
+
+Do not create `index.ts` barrel export files (exception: `src/utils/test/index.ts`). Import directly from source files. This improves tree-shaking, build times, and avoids circular dependency issues.
 
 ### Code Patterns
 
 #### State Management
 
-- **Server State**: Use React Query for data fetching and caching
-  ```typescript
-  const { data, isPending, isError } = useQuery({
-    queryKey: ['resource'],
-    queryFn: fetchResource,
-  })
-  ```
+- **Server State**: React Query for data fetching and caching
+- **Application State**: React Context for shared app state
+- **Component State**: `useState` for local component state
 
-- **Application State**: Use React Context for shared app state
-  ```typescript
-  // See DemoProvider.tsx for example
-  ```
+#### Skeleton Loading States
 
-- **Component State**: Use `useState` for local component state
+Each data-displaying component should have a corresponding skeleton component:
+
+```
+src/components/ComponentName/
+├── ComponentName.tsx
+├── ComponentNameSkeleton.tsx
+├── ComponentName.test.tsx
+└── ComponentName.stories.tsx
+```
 
 #### API Integration
 
-Place API calls in `src/services/`:
+Place API calls in `src/services/`, consume via custom hooks in `src/hooks/` using React Query.
 
-```typescript
-// src/services/apiService.ts
-export const fetchData = async (): Promise<Data[]> => {
-  const response = await fetch('/api/data')
-  if (!response.ok) throw new Error('Failed to fetch')
-  return response.json()
-}
-```
+#### Error Handling
 
-Use with React Query:
+- **Services**: Let errors propagate — do not wrap in `try/catch`. React Query handles errors via `isError` state.
+- **Mutations**: Throw on failure and return meaningful data (e.g. the updated entity) on success. Avoid returning booleans.
+- **Providers**: Use `onSuccess`/`onError` callbacks for user-facing notifications (e.g. Mantine notifications). Keep `onSettled` for query invalidation.
 
-```typescript
-// src/hooks/useData.ts
-export const useData = () => {
-  return useQuery({
-    queryKey: ['data'],
-    queryFn: fetchData,
-  })
-}
-```
-
-#### Testing Components
+#### Testing
 
 Use the custom render function that includes providers:
 
 ```typescript
-import { render, screen } from '@/utils/test'
-
-describe('MyComponent', () => {
-  it('renders correctly', () => {
-    render(<MyComponent />)
-    expect(screen.getByText('Expected text')).toBeInTheDocument()
-  })
-})
+import { render, screen } from "@/utils/test";
 ```
 
-#### Routing
+All new features should include:
+- Unit tests for components and utilities
+- Storybook stories for visual components
 
-Add routes in `src/Router.tsx`:
+### Configuration
 
-```typescript
-const router = createBrowserRouter([
-  {
-    Component: Layout,
-    children: [
-      { index: true, Component: HomePage },
-      { path: 'about', Component: AboutPage },
-    ],
-  },
-])
-```
+- **TypeScript**: Strict mode with `noUncheckedIndexedAccess`, `noImplicitReturns`; path alias `@/*` → `./src/*`
+- **Biome**: Linting with recommended defaults; assist actions recommended; CSS/HTML formatting disabled; uses `.gitignore` for file filtering
+- **React Query**: `staleTime: 60s`, `gcTime: 5min`
+- **Mantine**: Minimal theme in `src/utils/theme.ts`, colour scheme set to `auto`
+
+### Claude Code Skills
+
+#### Available Skills
+
+- **`/create-component`** — Generate a component with skeleton, tests and Storybook story
+- **`/create-page`** — Generate a page component and update Router
+- **`/create-hook`** — Generate a custom React hook with types and tests
+- **`/create-service`** — Scaffold a service + React Query hook pair with model type
+- **`/review-pr`** — Address PR review comments with structured workflow
+
+#### PR Review Workflow
+
+All steps are **required before merge**:
+
+1. **Proactive review** — Run `/pr-review-toolkit:review-pr` (plugin) to catch issues. Fix any findings, commit, and re-run until clean.
+2. **Copilot review** — Once the proactive review is clean, push changes and request a Copilot review on the PR. Wait for Copilot to leave its comments.
+3. **Reactive review** — Run `/review-pr` (project skill) to address Copilot and any human review comments. This reads threads, makes fixes, commits, replies, and resolves them. All threads must be resolved before merge.
+
+#### Code Review Standards
+
+- [ ] All tests pass (`npm test`)
+- [ ] No TypeScript errors
+- [ ] Biome checks pass
+- [ ] New features include tests
+- [ ] No `console.log` or `debugger` statements
+- [ ] Version bumped appropriately
+
+### Git Workflow
+
+- **`main`** – Production-ready code (protected)
+- **`staging`** – Pre-production testing (protected)
+- **`development`** – Active development integration (protected)
+- **`feature/**`** – New features (branch from `development`)
+- **`hotfix/**`** – Urgent production fixes (branch from `main`)
+- **`release/**`** – Release preparation (branch from `development`)
+
+**Protected branches**: `main`, `staging`, and `development` are protected — all changes must be merged via pull request. Never push directly to these branches.
+
+CI runs automatically on pushes to `main`, `staging`, and `development`, and on all pull requests.
 
 ### Environment Variables
 
@@ -369,269 +412,11 @@ interface ImportMetaEnv {
 }
 ```
 
-### Styling
-
-This project uses Mantine's styling system:
-
-**Customise theme** in `src/utils/theme.ts`:
-```typescript
-export const theme = createTheme({
-  primaryColor: 'blue',
-  fontFamily: 'Inter, sans-serif',
-  // Add your customisations
-})
-```
-
-**Component styling**:
-- Use Mantine's component props for styling
-- CSS Modules for custom styles (optional)
-- Mantine's emotion-based styling for complex cases
-
-### Skeleton Loading States
-
-This template follows a consistent pattern for loading states using skeleton components.
-
-#### Pattern
-
-Each component that displays data should have a corresponding skeleton component:
-
-```
-src/components/ComponentName/
-├── ComponentName.tsx
-├── ComponentNameSkeleton.tsx
-├── ComponentName.test.tsx
-└── ComponentName.stories.tsx
-```
-
-#### Usage
-
-```typescript
-import { ComponentName } from "@/components/ComponentName/ComponentName";
-import { ComponentNameSkeleton } from "@/components/ComponentName/ComponentNameSkeleton";
-
-// In your page or component
-{isPending ? (
-  <ComponentNameSkeleton />
-) : (
-  <ComponentName data={data} />
-)}
-```
-
-#### Best Practices
-
-- **Mirror structure**: Skeleton should match the visual layout of the actual component
-- **Layout props only**: Include props that affect layout (rows, columns) but not data props
-- **Use Mantine Skeleton**: Use `<Skeleton>` component from Mantine for placeholders
-- **Keep it simple**: Don't need pixel-perfect matching, approximate sizes are fine
-- **Co-locate**: Always keep skeleton in the same folder as the component
-
-#### Examples
-
-See these components for complete examples:
-
-**`src/components/DemoTableCard/`**
-- `DemoTableCard.tsx` - Main component
-- `DemoTableCardSkeleton.tsx` - Loading state
-- Used in `Demo.page.tsx` and `DemoId.page.tsx`
-
-**`src/components/UserCard/`**
-- `UserCard.tsx` - Main component
-- `UserCardSkeleton.tsx` - Loading state
-- Used in `Users.page.tsx`
-
-### Common Tasks
-
-#### Adding a New Page
-
-1. Create page component: `src/pages/NewPage.page.tsx`
-2. Add route in `src/Router.tsx`
-3. Create tests: `src/pages/NewPage.test.tsx`
-4. Add navigation links if needed
-
-#### Adding a New API Endpoint
-
-1. Create service: `src/services/newService.ts`
-2. Define types: `src/models/NewModel.ts`
-3. Create custom hook: `src/hooks/useNew.ts`
-4. Use hook in components
-
-#### Creating a Shared Component
-
-1. Create component: `src/components/NewComponent/NewComponent.tsx`
-2. Add props interface
-3. Create skeleton: `src/components/NewComponent/NewComponentSkeleton.tsx`
-4. Create tests: `src/components/NewComponent/NewComponent.test.tsx`
-5. Create Storybook story: `src/components/NewComponent/NewComponent.stories.tsx`
-
-**Or use the skill for consistency:**
-```bash
-/create-component
-```
-
-### Using Skills for Consistent Code Generation
-
-This template includes Claude Code Skills to maintain consistent patterns across your codebase.
-
-#### Creating Components
-
-Use `/create-component` to generate a new component with:
-- Component file with TypeScript props interface
-- Skeleton loading state component
-- Test file with Testing Library setup
-- Storybook story with controls and autodocs
-- Optional CSS Module for custom styling
-
-**Example:**
-```
-You: /create-component
-Claude: What is the component's purpose?
-You: A user profile card that displays avatar, name, and bio
-Claude: [Creates UserProfileCard with all files]
-```
-
-#### Creating Pages
-
-Use `/create-page` to generate a new page with:
-- Page file with proper naming convention
-- Loading/error/empty state handling
-- Router configuration updates
-- Navigation links
-
-**Example:**
-```
-You: /create-page
-Claude: What is the page's purpose and URL path?
-You: Display list of users at /users
-Claude: [Creates UsersPage and updates Router]
-```
-
-#### Creating Hooks
-
-Use `/create-hook` to generate a custom hook with:
-- Proper naming (`use[Name]`)
-- TypeScript types and JSDoc documentation
-- Tests for complex logic
-- Appropriate pattern (React Query, Context, State, etc.)
-
-**Example:**
-```
-You: /create-hook
-Claude: What problem does this hook solve?
-You: Fetch user data by ID using React Query
-Claude: [Creates useUserById hook]
-```
-
-#### Benefits of Using Skills
-
-- **Consistency**: All code follows the same patterns
-- **Completeness**: Never forget tests or Storybook stories
-- **Best Practices**: Skills enforce TypeScript, testing, and documentation
-- **Speed**: Generate boilerplate quickly
-- **Maintainability**: Easy to understand and update
-
-### Build and Deployment
-
-#### Production Build
-
-```bash
-npm run build        # Creates optimised build in dist/
-npm run preview      # Preview production build locally
-```
-
-#### Storybook Build
-
-```bash
-npm run storybook:build  # Creates static Storybook in storybook-static/
-```
-
-#### Deployment Checklist
-
-- [ ] Ensure CI pipeline passes (GitHub Actions)
-- [ ] Update environment variables for production
-- [ ] Run `npm test` to ensure all checks pass locally
-- [ ] Build successfully with `npm run build`
-- [ ] Test production build with `npm run preview`
-- [ ] Update `package.json` version
-- [ ] Review bundle size (check dist/ folder)
-
-### Troubleshooting
-
-Common issues and solutions are documented in README.md under the Troubleshooting section.
-
-**Quick Reference:**
-
-- **Port in use**: `npm run dev -- --port 3000`
-- **Formatting issues**: `npm run lint:fix`
-- **TypeScript errors**: `npm run typecheck`
-- **Clear all caches**: `rm -rf node_modules dist .vite && npm install`
-
-### Project-Specific Guidelines
-
-<!-- Add your project-specific conventions here -->
-
-#### Code Review Standards
-- [ ] All tests pass
-- [ ] No TypeScript errors
-- [ ] Biome checks pass
-- [ ] New features include tests
-- [ ] Complex logic is documented
-- [ ] No console.logs or debugger statements
-
-#### Component Guidelines
-- Use TypeScript interfaces for all props
-- Add JSDoc comments for complex components
-- Keep components focused and single-purpose
-- Prefer composition over complex props
-
-#### Git Workflow
-
-This project uses the following branching strategy:
-
-- **`main`** – Production-ready code
-- **`staging`** – Pre-production testing
-- **`development`** – Active development integration
-- **`feature/**`** – New features (branch from `development`)
-- **`hotfix/**`** – Urgent production fixes (branch from `main`)
-- **`release/**`** – Release preparation (branch from `development`)
-
-CI runs automatically on pushes to `main`, `staging`, and `development`, and on all pull requests.
-
-#### Additional Resources
-<!-- Link to design systems, API docs, etc. -->
-
----
-
-## Working with Claude Code
-
-When requesting changes from Claude Code:
-
-- **Be specific**: "Add a user profile page with avatar and bio" rather than "add user stuff"
-- **Reference existing patterns**: "Follow the pattern used in DemoProvider" helps maintain consistency
-- **Request tests**: "Include tests for this component"
-- **Ask for explanations**: "Explain why you chose this approach" helps understand decisions
-
-### Helpful Commands
-
-```bash
-# Run full quality checks
-npm test
-
-# Watch tests during development
-npm run vitest
-
-# Run unit tests once
-npm run vitest:unit
-
-# Format all files
-npm run lint:fix
-
-# Type check without building
-npm run typecheck
-```
-
 ### Template Demo Code
 
-The template includes demo code showing best practices:
+The project includes demo code from the web template (DemoProvider, UserProvider, demo pages, etc.) that demonstrates React Query, context, hooks, routing and skeleton loading state patterns. This code serves as a working reference and should be replaced incrementally as real features are built.
+
+See these components for complete examples:
 
 - `DemoProvider.tsx` / `UserProvider.tsx` - React Query + Context pattern
 - `useDemoById.ts` / `useUserById.ts` - Custom hooks with queries

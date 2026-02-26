@@ -17,33 +17,32 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 		queryKey: queryKey,
 		queryFn: async () => await getAllUsers(),
 		placeholderData: keepPreviousData,
-		staleTime: 30000,
 	});
 
 	const updateMutation = useMutation({
 		mutationFn: async ({ id, user }: { id: number; user: User }) =>
 			updateUser(id, user),
 		onSuccess: () => {
-			console.log("User updated successfully");
+			// TODO: Show success notification
 		},
 		onSettled: () => {
 			void queryClient.invalidateQueries({ queryKey: queryKey });
 		},
 		onError: () => {
-			console.error("Error updating user");
+			// TODO: Show error notification
 		},
 	});
 
 	const deleteMutation = useMutation({
 		mutationFn: async ({ id }: { id: number }) => deleteUser(id),
 		onSuccess: () => {
-			console.log("User deleted successfully");
+			// TODO: Show success notification
 		},
 		onSettled: () => {
 			void queryClient.invalidateQueries({ queryKey: queryKey });
 		},
 		onError: () => {
-			console.error("Error deleting user");
+			// TODO: Show error notification
 		},
 	});
 
